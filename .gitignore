@@ -1,0 +1,56 @@
+# ─── LaTeX Auxiliary Files ────────────────────────────────────────────────────
+*.aux
+*.lof
+*.log
+*.lot
+*.fls
+*.out
+*.toc
+*.fmt
+*.fot
+*.cb
+*.cb2
+.*.lb
+
+# ─── Bibliography ─────────────────────────────────────────────────────────────
+*.bbl
+*.bcf
+*.blg
+*-blx.aux
+*-blx.bib
+*.run.xml
+
+# ─── Build Tool Artifacts ─────────────────────────────────────────────────────
+*.fdb_latexmk
+*.synctex
+*.synctex(busy)
+*.synctex.gz
+*.synctex.gz(busy)
+*.pdfsync
+
+# ─── Compiled Output ──────────────────────────────────────────────────────────
+# Uncomment the line below if you do NOT want to track generated PDFs.
+# *.pdf
+
+# ─── OS & Editor Junk ─────────────────────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ─── VS Code ──────────────────────────────────────────────────────────────────
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+
+# ─── LaTeX Workshop (VS Code extension) temp files ────────────────────────────
+*.gz
+*.xdv
+*.dvi
+
+# ─── Overleaf / local temp ────────────────────────────────────────────────────
+*.bak
+*.tmp
+*~
