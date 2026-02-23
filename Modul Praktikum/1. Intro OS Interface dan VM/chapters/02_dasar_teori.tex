@@ -1,4 +1,4 @@
-﻿% ============================================================
+% ============================================================
 %  BAB 2 - Dasar Teori
 %  TODO: Ganti \lipsum[...] dan placeholder dengan teori
 %        yang relevan. Tambah/hapus \subsection sesuai kebutuhan.
@@ -7,9 +7,53 @@
 \newpage
 \section{Dasar Teori}
 
-\subsection{Sub-Teori Pertama}
-\lipsum[2]
+\subsection{DefinisiSistem Operasi}
+Sistem Operasi \textit{(Operating System/OS)} merupakan perangkat lunak sistem yang berfungsi sebagai penghubung antara pengguna \textit{(user)}, perangkat lunak aplikasi, dan perangkat keras komputer. Hubungan tersebut dapat dipahami melalui arsitektur berlapis sebagaimana ditunjukkan pada Gambar \ref{fig:arsitektur-sistem-operasi}.
 
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.6\textwidth]{Figure/architecture-so.png}
+\caption{Arsitektur Sistem Operasi}
+\label{fig:arsitektur-sistem-operasi}
+\end{figure}
+
+\begingroup
+\setlength{\parindent}{0pt}
+
+Pada lapisan paling atas terdapat \textit{User} (\textit{User 1, User 2, \ldots, User n}) yang merepresentasikan individu atau entitas yang menggunakan sistem komputer. Pengguna tidak berinteraksi langsung dengan perangkat keras, melainkan melalui perangkat lunak.
+
+Lapisan berikutnya adalah \textit{Software}, yang terdiri dari dua kategori utama:
+
+\begin{enumerate}
+\item \textbf{Application Software}
+merupakan perangkat lunak yang digunakan secara langsung oleh pengguna untuk menyelesaikan tugas tertentu, seperti pengolah kata, peramban web, atau perangkat lunak pemrograman.
+
+\item \textbf{System Software}
+merupakan perangkat lunak pendukung yang membantu pengoperasian sistem secara keseluruhan, termasuk \textit{compiler}, \textit{interpreter}, dan utilitas sistem.
+\end{enumerate}
+
+Di bawah kedua jenis perangkat lunak tersebut terdapat \textit{Operating System}. Pada posisi inilah sistem operasi berperan sebagai pengelola dan pengendali utama sistem komputer. Sistem operasi menjadi perantara antara perangkat lunak dengan perangkat keras.
+
+Lapisan paling bawah adalah \textit{Hardware}, yang terdiri dari:
+
+\begin{itemize}
+\item CPU (\textit{Central Processing Unit}) sebagai pemroses instruksi,
+\item RAM (\textit{Random Access Memory}) sebagai penyimpanan sementara,
+\item I/O (\textit{Input/Output Devices}) seperti keyboard, mouse, dan perangkat penyimpanan.
+\end{itemize}
+
+Struktur ini menunjukkan bahwa:
+
+\begin{itemize}
+\item Pengguna $\rightarrow$ berinteraksi dengan aplikasi,
+\item Aplikasi $\rightarrow$ meminta layanan dari sistem operasi,
+\item Sistem operasi $\rightarrow$ mengatur dan mengalokasikan sumber daya perangkat keras,
+\item Perangkat keras $\rightarrow$ mengeksekusi instruksi.
+\end{itemize}
+
+Dengan demikian, sistem operasi tidak sekadar ``penghubung'', tetapi merupakan pengelola sumber daya (\textit{resource manager}) yang mengontrol akses terhadap CPU, memori, dan perangkat I/O agar dapat digunakan secara efisien dan terorganisasi oleh berbagai aplikasi serta pengguna secara bersamaan. Tanpa sistem operasi, perangkat lunak tidak memiliki mekanisme terstandarisasi untuk mengakses perangkat keras. Akibatnya, setiap program harus berkomunikasi langsung dengan perangkat keras, yang dapat menyebabkan konflik penggunaan sumber daya dan ketidakteraturan sistem.
+
+\endgroup
 \subsection{Sub-Teori Kedua}
 \lipsum[3]
 
