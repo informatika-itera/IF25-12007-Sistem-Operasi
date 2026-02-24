@@ -5,9 +5,9 @@
 % ============================================================
 
 \newpage
-\section{Dasar Teori}
+\section{Sistem Operasi}
 
-\subsection{DefinisiSistem Operasi}
+\subsection{Definisi Sistem Operasi}
 Sistem Operasi \textit{(Operating System/OS)} merupakan perangkat lunak sistem yang berfungsi sebagai penghubung antara pengguna \textit{(user)}, perangkat lunak aplikasi, dan perangkat keras komputer. Hubungan tersebut dapat dipahami melalui arsitektur berlapis sebagaimana ditunjukkan pada Gambar \ref{fig:arsitektur-sistem-operasi}.
 
 \begin{figure}[h]
@@ -25,59 +25,108 @@ Pada lapisan paling atas terdapat \textit{User} (\textit{User 1, User 2, \ldots,
 Lapisan berikutnya adalah \textit{Software}, yang terdiri dari dua kategori utama:
 
 \begin{enumerate}
-\item \textbf{Application Software}
+\item \textbf{\textit{Application Software}}
 merupakan perangkat lunak yang digunakan secara langsung oleh pengguna untuk menyelesaikan tugas tertentu, seperti pengolah kata, peramban web, atau perangkat lunak pemrograman.
 
-\item \textbf{System Software}
+\item \textbf{\textit{System Software}}
 merupakan perangkat lunak pendukung yang membantu pengoperasian sistem secara keseluruhan, termasuk \textit{compiler}, \textit{interpreter}, dan utilitas sistem.
 \end{enumerate}
 
-Di bawah kedua jenis perangkat lunak tersebut terdapat \textit{Operating System}. Pada posisi inilah sistem operasi berperan sebagai pengelola dan pengendali utama sistem komputer. Sistem operasi menjadi perantara antara perangkat lunak dengan perangkat keras.
+Di bawah kedua jenis perangkat lunak tersebut terdapat \textit{Operating System}. Pada posisi inilah sistem operasi berperan sebagai pengelola dan pengendali utama sistem komputer. Sistem operasi menjadi perantara antara perangkat lunak dengan perangkat keras. Lapisan paling bawah adalah \textit{Hardware}, yang terdiri dari:
 
-Lapisan paling bawah adalah \textit{Hardware}, yang terdiri dari:
-
-\begin{itemize}
+\begin{enumerate}
 \item CPU (\textit{Central Processing Unit}) sebagai pemroses instruksi,
 \item RAM (\textit{Random Access Memory}) sebagai penyimpanan sementara,
-\item I/O (\textit{Input/Output Devices}) seperti keyboard, mouse, dan perangkat penyimpanan.
-\end{itemize}
+\item I/O (\textit{Input/Output Devices}) seperti \textit{keyboard}, \textit{mouse}, dan perangkat penyimpanan.
+\end{enumerate}
 
 Struktur ini menunjukkan bahwa:
 
-\begin{itemize}
+\begin{enumerate}
 \item Pengguna $\rightarrow$ berinteraksi dengan aplikasi,
 \item Aplikasi $\rightarrow$ meminta layanan dari sistem operasi,
 \item Sistem operasi $\rightarrow$ mengatur dan mengalokasikan sumber daya perangkat keras,
 \item Perangkat keras $\rightarrow$ mengeksekusi instruksi.
-\end{itemize}
+\end{enumerate}
 
-Dengan demikian, sistem operasi tidak sekadar ``penghubung'', tetapi merupakan pengelola sumber daya (\textit{resource manager}) yang mengontrol akses terhadap CPU, memori, dan perangkat I/O agar dapat digunakan secara efisien dan terorganisasi oleh berbagai aplikasi serta pengguna secara bersamaan. Tanpa sistem operasi, perangkat lunak tidak memiliki mekanisme terstandarisasi untuk mengakses perangkat keras. Akibatnya, setiap program harus berkomunikasi langsung dengan perangkat keras, yang dapat menyebabkan konflik penggunaan sumber daya dan ketidakteraturan sistem.
+Dengan demikian, sistem operasi tidak sekadar ``penghubung'', tetapi merupakan pengelola sumber daya (\textit{resource manager}) yang mengontrol akses terhadap CPU, memori, dan perangkat I/O agar dapat digunakan secara efisien dan terorganisasi oleh berbagai aplikasi serta pengguna secara bersamaan. Tanpa sistem operasi, perangkat lunak tidak memiliki mekanisme terstandarisasi untuk mengakses perangkat keras. Akibatnya, setiap program harus berkomunikasi langsung dengan perangkat keras, yang dapat menyebabkan konflik penggunaan sumber daya dan ketidakteraturan sistem \cite{tutorialspoint_os_overview}.
 
 \endgroup
-\subsection{Sub-Teori Kedua}
-\lipsum[3]
+\subsection{Fungsi Utama Sistem Operasi}
+Secara umum, sistem operasi memiliki beberapa fungsi utama sebagai pengelola sumber daya dalam sistem komputer, yaitu:
 
-\subsubsection{Sub-Sub-Teori A}
-\lipsum[4]
+\begin{enumerate}
+    \item \textbf{Manajemen Proses} \\
+    Sistem operasi mengatur eksekusi program yang sedang berjalan (proses) serta melakukan pembagian waktu penggunaan prosesor (CPU). Dalam lingkungan multiprogramming, sistem operasi menentukan proses mana yang dijalankan, kapan dijalankan, dan berapa lama waktu eksekusinya.
 
-\subsubsection{Sub-Sub-Teori B}
-\lipsum[5]
+    \item \textbf{Manajemen Memori} \\
+    Sistem operasi bertanggung jawab dalam mengalokasikan dan mengelola penggunaan memori utama (RAM). Sistem operasi melacak bagian memori yang sedang digunakan, menentukan proses mana yang memperoleh alokasi memori, serta membebaskan memori ketika proses telah selesai dijalankan.
 
-\subsection{Sub-Teori Ketiga}
-\lipsum[6]
+    \item \textbf{Manajemen Sistem Berkas (\textit{File System})} \\
+    Sistem operasi mengatur penyimpanan dan pengorganisasian data pada media penyimpanan. Hal ini mencakup pengelolaan direktori, file, hak akses, serta alokasi dan dealokasi ruang penyimpanan.
 
-Tabel \ref{tab:dasar-teori} merangkum hal-hal penting terkait teori di atas.
+    \item \textbf{Manajemen Perangkat I/O} \\
+    Sistem operasi mengontrol interaksi antara perangkat lunak dan perangkat keras \textit{input/output} seperti \textit{keyboard}, \textit{mouse}, \textit{printer}, dan perangkat penyimpanan. Pengelolaan ini dilakukan melalui \textit{driver} perangkat agar komunikasi berjalan secara terstandarisasi dan efisien.
 
-\begin{table}[h]
-\caption{Tabel Ringkasan Dasar Teori}
-\label{tab:dasar-teori}
+    \item \textbf{Keamanan dan Proteksi} \\
+    Sistem operasi mengatur hak akses pengguna terhadap sumber daya sistem serta melindungi data dan program dari akses yang tidak sah. Mekanisme ini mencakup autentikasi pengguna, kontrol akses, dan isolasi antar proses.
+\end{enumerate}
+
+\subsection{Jenis Jenis Sistem Operasi}
+
+\begin{enumerate}
+    \item \textbf{\textit{Microsoft Windows}}
+
+    \begin{center}
+        \includegraphics[width=0.15\textwidth]{Figure/windows.png}
+        \captionof{figure}{\textit{Microsoft Windows}}
+    \end{center}
+
+    \textit{Microsoft Windows} merupakan sistem operasi yang dikembangkan oleh \textit{Microsoft} dan banyak digunakan pada komputer personal di seluruh dunia. \textit{Windows} dikenal dengan antarmuka grafis yang intuitif serta dukungan perangkat lunak yang sangat luas. Sistem operasi ini banyak digunakan dalam lingkungan perkantoran, pendidikan, dan industri karena kompatibilitasnya dengan berbagai perangkat keras dan aplikasi komersial.
+
+    \item \textbf{\textit{GNU/Linux}}
+
+    \begin{center}
+        \includegraphics[width=0.15\textwidth]{Figure/linux.png}
+        \captionof{figure}{\textit{GNU/Linux}}
+    \end{center}
+
+    \textit{GNU/Linux} adalah sistem operasi berbasis kernel \textit{Linux} yang bersifat \textit{open-source}. Sistem operasi ini dikenal karena stabilitas, keamanan, dan fleksibilitasnya dalam berbagai kebutuhan komputasi. \textit{Linux} banyak digunakan pada \textit{server}, sistem jaringan, dan lingkungan pengembangan perangkat lunak. Tersedia dalam berbagai distribusi seperti \textit{Ubuntu}, \textit{Debian}, dan \textit{Fedora}, yang dirancang untuk kebutuhan pengguna yang berbeda.
+
+    \item \textbf{\textit{UNIX}}
+
+    \begin{center}
+        \includegraphics[width=0.15\textwidth]{Figure/unix.png}
+        \captionof{figure}{\textit{UNIX}}
+    \end{center}
+
+    \textit{UNIX} merupakan sistem operasi yang dikembangkan pada akhir tahun 1960-an dan menjadi dasar bagi banyak sistem operasi modern. \textit{UNIX} dirancang dengan konsep \textit{multiuser} dan \textit{multitasking} yang kuat, sehingga banyak digunakan dalam sistem komputasi skala besar dan lingkungan akademik. Arsitektur dan filosofi desain \textit{UNIX} memberikan pengaruh signifikan terhadap pengembangan \textit{Linux} dan \textit{macOS}.
+
+    \item \textbf{\textit{macOS}}
+
+    \begin{center}
+        \includegraphics[width=0.15 \textwidth]{Figure/logomac.png}
+        \captionof{figure}{\textit{macOS}}
+    \end{center}
+
+    \textit{macOS} adalah sistem operasi yang dikembangkan oleh \textit{Apple} untuk perangkat komputer \textit{Macintosh}. Sistem operasi ini berbasis \textit{UNIX} dan dikenal dengan desain antarmuka yang konsisten serta integrasi yang erat dengan ekosistem perangkat \textit{Apple}. \textit{macOS} banyak digunakan dalam bidang desain grafis, multimedia, dan pengembangan aplikasi karena stabilitas serta optimalisasi perangkat keras dan perangkat lunaknya.
+\end{enumerate}
+
+\newpage
+\subsection{Antarmuka Sistem Operasi}
+
+\begin{figure}[h]
 \centering
-\begin{tabulary}{\textwidth}{|L|L|}
-\hline
-\textbf{Konsep} & \textbf{Penjelasan Singkat} \\ \hline
-Konsep A        & \textit{TODO: isi penjelasan} \\ \hline
-Konsep B        & \textit{TODO: isi penjelasan} \\ \hline
-Konsep C        & \textit{TODO: isi penjelasan} \\ \hline
-Konsep D        & \textit{TODO: isi penjelasan} \\ \hline
-\end{tabulary}
-\end{table}
+\includegraphics[width=0.65\textwidth]{Figure/guidancli.png}
+\caption{\textit{Command Line Interface (CLI)}}
+\label{fig:cli}
+\end{figure}
+
+\begingroup
+\setlength{\parindent}{0pt}
+
+Antarmuka sistem operasi merupakan mekanisme yang memungkinkan pengguna berinteraksi dengan sistem komputer. Melalui antarmuka ini, pengguna dapat memberikan perintah, menjalankan aplikasi, serta mengakses sumber daya sistem. Secara umum, terdapat dua bentuk utama antarmuka, yaitu \textit{Graphical User Interface (GUI)} dan \textit{Command Line Interface (CLI)}. \textit{GUI} menggunakan elemen visual seperti jendela (\textit{window}), ikon, menu, dan tombol sehingga lebih intuitif dan mudah digunakan, terutama oleh pengguna pemula.
+
+Sementara itu, \textit{CLI} memungkinkan interaksi melalui perintah berbasis teks dengan mengetikkan instruksi tertentu untuk menjalankan program, mengelola file, dan mengakses konfigurasi sistem. \textit{CLI} banyak digunakan pada lingkungan \textit{server}, administrasi sistem, dan pengembangan perangkat lunak karena lebih efisien, fleksibel, serta mendukung automasi melalui skrip. \textit{GUI} unggul dalam kemudahan penggunaan, sedangkan \textit{CLI} memberikan kontrol yang lebih detail terhadap sistem.
+
+\endgroup

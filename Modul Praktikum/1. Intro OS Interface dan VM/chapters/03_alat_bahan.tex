@@ -5,18 +5,61 @@
 % ============================================================
 
 \newpage
-\section{Alat dan Bahan}
+\section{\textit{Virtual Machine}}
 \label{sec:alat-bahan}
 
-\subsection{Perangkat Keras}
-\begin{itemize}
-    \item Spesifikasi perangkat keras pertama.
-    \item Spesifikasi perangkat keras kedua.
-\end{itemize}
+\subsection{Pengertian \textit{Virtual Machine}}
+\begingroup
+\setlength{\parindent}{0pt}
 
-\subsection{Perangkat Lunak}
-\begin{itemize}
-    \item Perangkat lunak pertama beserta versinya.
-    \item Perangkat lunak kedua beserta versinya.
-    \item Perangkat lunak ketiga beserta versinya.
-\end{itemize}
+\textit{Virtual Machine} (VM) adalah representasi komputer secara virtual yang berjalan di atas sistem operasi utama melalui teknologi virtualisasi. Dengan pendekatan ini, satu perangkat keras fisik dapat menjalankan lebih dari satu sistem operasi secara bersamaan. Secara konsep, VM dapat dipahami sebagai ``komputer di dalam komputer''. Sistem operasi utama disebut \textit{Host Operating System}, sedangkan sistem operasi di dalam VM disebut \textit{Guest Operating System}. Proses virtualisasi tersebut dikelola oleh perangkat lunak yang disebut \textit{hypervisor}. Dalam pembelajaran sistem operasi, VM berguna karena menyediakan lingkungan terisolasi untuk eksperimen, instalasi, dan konfigurasi tanpa mengganggu sistem utama.
+
+\textit{Virtual Machine} umum dimanfaatkan untuk:
+\begin{enumerate}
+    \item Pengujian perangkat lunak.
+    \item Simulasi instalasi sistem operasi.
+    \item Keamanan dan \textit{sandboxing}.
+    \item Pengembangan dan penelitian sistem.
+\end{enumerate}
+
+\endgroup
+
+\subsection{Jenis Jenis \textit{Virtual Machine}}
+\begingroup
+\setlength{\parindent}{0pt}
+
+Terdapat berbagai perangkat lunak virtualisasi yang digunakan untuk menjalankan mesin virtual. Beberapa di antaranya adalah sebagai berikut:
+
+\begin{enumerate}
+    \item \textbf{\textit{Oracle VM VirtualBox}}\\
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=0.2\textwidth]{Figure/virtualbox.png}
+        \caption{\textit{Oracle VM VirtualBox}}
+    \end{figure}
+
+    \textit{Oracle VM VirtualBox} merupakan perangkat lunak virtualisasi yang memungkinkan pengguna menjalankan sistem operasi tambahan di dalam sistem operasi utama. Sebagai contoh, pengguna dengan sistem operasi \textit{Windows} dapat menjalankan \textit{Linux} di dalamnya tanpa mengubah konfigurasi sistem utama. \textit{VirtualBox} banyak digunakan dalam lingkungan pendidikan karena bersifat gratis dan relatif mudah digunakan.
+
+    \item \textbf{\textit{Parallels Desktop}}\\
+    \textit{Parallels Desktop} adalah perangkat lunak virtualisasi yang dirancang khusus untuk komputer \textit{Macintosh} berbasis prosesor \textit{Intel} maupun \textit{Apple Silicon}. Perangkat lunak ini memungkinkan pengguna \textit{macOS} menjalankan sistem operasi lain seperti \textit{Windows} secara bersamaan dalam satu perangkat.
+
+    \item \textbf{\textit{VMware}}\\
+    \textit{VMware Workstation} merupakan perangkat lunak virtualisasi untuk arsitektur x86 dan x86-64. \textit{VMware} memungkinkan pembuatan beberapa mesin virtual yang dapat dijalankan secara simultan. Produk \textit{VMware} banyak digunakan dalam lingkungan profesional dan industri karena stabilitas serta fitur manajemen yang lengkap.
+
+    \item \textbf{\textit{QEMU}}\\
+    \textit{QEMU} (\textit{Quick Emulator}) adalah perangkat lunak virtualisasi dan emulasi yang bersifat \textit{open-source}. \textit{QEMU} mampu melakukan emulasi berbagai arsitektur prosesor serta menjalankan sistem operasi tamu pada lingkungan yang berbeda. \textit{QEMU} sering digunakan dalam pengembangan sistem operasi dan penelitian karena fleksibilitasnya yang tinggi.
+
+    \item \textbf{\textit{Microsoft Virtual PC}}\\
+    \textit{Microsoft Virtual PC} merupakan perangkat lunak virtualisasi yang dikembangkan oleh \textit{Microsoft} untuk sistem operasi \textit{Windows}. Perangkat lunak ini memungkinkan pengguna menjalankan sistem operasi lain di dalam lingkungan \textit{Windows}. Meskipun kini telah digantikan oleh teknologi lain seperti \textit{Hyper-V}, \textit{Microsoft Virtual PC} menjadi salah satu pelopor virtualisasi pada platform \textit{Windows}.
+
+    \item \textbf{\textit{Xen}}\\
+    \textit{Xen} adalah \textit{Virtual Machine Monitor} (VMM) yang dikembangkan sebagai proyek penelitian di \textit{University of Cambridge}. \textit{Xen} banyak digunakan dalam lingkungan \textit{server} dan komputasi awan karena mendukung virtualisasi dengan performa tinggi.
+
+    \item \textbf{\textit{KVM} (\textit{Kernel-based Virtual Machine})}\\
+    \textit{KVM} adalah teknologi virtualisasi yang terintegrasi langsung ke dalam kernel \textit{Linux}. \textit{KVM} menyediakan virtualisasi penuh untuk sistem berbasis x86 dan banyak digunakan pada \textit{server} \textit{Linux} serta layanan komputasi awan.
+
+    \item \textbf{\textit{OpenStack}}\\
+    \textit{OpenStack} merupakan arsitektur layanan \textit{Infrastructure as a Service} (IaaS) yang mendukung berbagai \textit{hypervisor} seperti \textit{KVM}, \textit{VMware}, \textit{Xen}, dan \textit{QEMU}. \textit{OpenStack} digunakan dalam pengelolaan infrastruktur komputasi awan berskala besar \cite{prasetiyo2024mesinvirtual}.
+\end{enumerate}
+
+\endgroup
