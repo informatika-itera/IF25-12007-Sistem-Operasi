@@ -1,76 +1,83 @@
-﻿% ============================================================
+% ============================================================
 %  BAB 4 - Langkah-Langkah Praktikum
-%  TODO: Ganti \lipsum dan placeholder perintah dengan
-%        prosedur sesungguhnya. Duplikat blok \subsection
-%        jika ada lebih dari dua sesi.
 % ============================================================
 
 \newpage
 \section{Langkah-Langkah Praktikum}
 
-% --------------------------------------------------------
-\subsection{Persiapan Lingkungan}
-\label{sec:persiapan}
-% --------------------------------------------------------
-\lipsum[7]
-
 \begin{enumerate}
-    \item Langkah persiapan pertama.
-    \item Langkah persiapan kedua.
-    \begin{lstlisting}[language=bash, caption={Perintah verifikasi lingkungan}]
-# TODO: ganti dengan perintah sesungguhnya
-echo "Lingkungan siap"
-    \end{lstlisting}
+    \item \textbf{Instalasi VirtualBox}
+
+    Langkah pertama yang harus dilakukan adalah menginstal software virtualisasi, yaitu Oracle VM VirtualBox.
+
+    Unduh VirtualBox melalui tautan resmi berikut:
+
+    \url{https://www.virtualbox.org/wiki/Downloads}
+
+    \item \textbf{Mengunduh File ISO Ubuntu Desktop}
+
+    Setelah VirtualBox berhasil diinstal, langkah berikutnya adalah menyiapkan sistem operasi yang akan dijalankan di dalam Virtual Machine, yaitu Ubuntu Desktop.
+
+    Unduh file ISO Ubuntu Desktop melalui tautan resmi berikut:
+
+    \url{https://ubuntu.com/download/desktop}
+
+    \item \textbf{Setup Virtual Machine}
+
+    Setelah VirtualBox terinstal dan file ISO Ubuntu sudah diunduh, langkah selanjutnya adalah melakukan setup Virtual Machine di VirtualBox.
+
+    \begin{enumerate}
+        \item Buka aplikasi Oracle VM VirtualBox, kemudian klik tombol \textbf{New}.
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.75\textwidth]{Figure/kliknew.png}
+            \caption{Tampilan Oracle VM VirtualBox saat memilih tombol \textbf{New}.}
+            \label{fig:virtualbox-klik-new}
+        \end{figure}
+        \newpage
+        \item Pada bagian \textbf{Name}, isi nama mesin virtual (misalnya \texttt{Ubuntu-Elsa}). Pada bagian \textbf{ISO Image}, pilih file ISO Ubuntu yang sudah diunduh, lalu klik \textbf{Next}. 
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.75\textwidth]{Figure/gambar2.png}
+            \caption{Tampilan Oracle VM VirtualBox saat memilih nama mesin virtual dan file ISO Ubuntu.}
+            \label{fig:virtualbox-name-iso}
+        \end{figure}
+
+        \item Pada menu \textbf{Unattended Install}, isi \textbf{Username}, \textbf{Password}, dan \textbf{Hostname} (tanpa spasi), kemudian klik \textbf{Next}. 
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.75\textwidth]{Figure/gambar3.png}
+            \caption{Tampilan Oracle VM VirtualBox pada tahap \textbf{Unattended Install}.}
+            \label{fig:virtualbox-unattended-install}
+        \end{figure}
+
+        \item Pada menu \textbf{Hardware}, atur \textbf{Base Memory} minimal 4096 MB dan \textbf{Processor} minimal 2 core (sesuaikan dengan spesifikasi perangkat), lalu klik \textbf{Finish}. 
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.75\textwidth]{Figure/gambar4.png}
+            \caption{Tampilan pengaturan \textbf{Hardware} pada Oracle VM VirtualBox (Base Memory dan Processor).}
+            \label{fig:virtualbox-hardware}
+        \end{figure}
+
+        \item Jalankan mesin virtual yang sudah dibuat, lalu pada tampilan awal instalasi pilih opsi \textbf{"Try or Install Ubuntu"}.
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.75\textwidth]{Figure/gambar5.png}
+            \caption{Tampilan awal instalasi Ubuntu saat memilih opsi \textbf{"Try or Install Ubuntu"}.}
+            \label{fig:virtualbox-try-install}
+        \end{figure}
+
+        \item Lanjutkan proses instalasi sampai tahap \textit{copying files} selesai. Proses ini biasanya memerlukan waktu beberapa puluh menit, kemudian lakukan restart VM jika diminta. 
 \end{enumerate}
 
-% --------------------------------------------------------
-\subsection{Sesi 1: Nama Sesi Pertama}
-\label{sec:sesi-1}
-% --------------------------------------------------------
-\lipsum[8]
 
-\begin{enumerate}
-    \item Langkah pertama sesi ini.
-    \begin{lstlisting}[language=bash, caption={Perintah sesi pertama}]
-# TODO: ganti dengan perintah sesungguhnya
-perintah --opsi argumen
-    \end{lstlisting}
 
-    \item Langkah kedua sesi ini.
-    \begin{lstlisting}[language=bash, caption={Perintah lanjutan}]
-# TODO: ganti dengan perintah sesungguhnya
-perintah_lanjutan
-    \end{lstlisting}
+
+
 \end{enumerate}
 
-\begin{figure}[h]
-    \centering
-    % TODO: ganti dengan screenshot hasil praktikum
-    \includegraphics[width=0.75\textwidth]{Figure/ifitera-header.png}
-    \caption{Hasil Sesi 1 --- TODO: ganti caption}
-    \label{fig:sesi1}
-\end{figure}
-
-% --------------------------------------------------------
-\subsection{Sesi 2: Nama Sesi Kedua}
-\label{sec:sesi-2}
-% --------------------------------------------------------
-\lipsum[9]
-
-\begin{enumerate}
-    \item Langkah pertama sesi kedua.
-    \item Langkah kedua sesi kedua.
-    \begin{lstlisting}[language=bash, caption={Perintah sesi kedua}]
-# TODO: ganti dengan perintah sesungguhnya
-perintah_sesi_dua
-    \end{lstlisting}
-    \item Langkah ketiga sesi kedua.
-\end{enumerate}
-
-\begin{figure}[h]
-    \centering
-    % TODO: ganti dengan screenshot hasil praktikum
-    \includegraphics[width=0.75\textwidth]{Figure/ifitera-header.png}
-    \caption{Hasil Sesi 2 --- TODO: ganti caption}
-    \label{fig:sesi2}
-\end{figure}
