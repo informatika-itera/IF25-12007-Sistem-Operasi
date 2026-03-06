@@ -11,74 +11,101 @@
 \subsection{Tujuan Praktikum}
 Setelah menyelesaikan praktikum ini, mahasiswa diharapkan mampu:
 \begin{enumerate}
-	\item Memahami peran Sistem Operasi Linux secara umum, termasuk komponen inti seperti \textit{kernel} dan \textit{shell}.
-	\item Menjelaskan struktur direktori dan bernavigasi menggunakan Antarmuka Baris Perintah (CLI).
-	\item Menggunakan sintaks dasar sistem operasi Linux beserta \textit{flag} dan argumennya.
-	\item Menggunakan perintah dasar seperti \texttt{ls}, \texttt{cd}, \texttt{mkdir}, \texttt{rm}, \texttt{cp}, \texttt{mv}, \texttt{touch}, dan \texttt{cat}.
-	\item Memahami konsep dasar kepemilikan dan hak akses (\textit{permissions}) pada sistem operasi berbasis Unix.
-	\item Menerapkan perubahan hak akses menggunakan \texttt{chmod}, \texttt{chown}, serta memahami konsep otorisasi \texttt{sudo} dan \textit{superuser}.
+    \item Menjelaskan peran Sistem Operasi Linux beserta komponen intinya, seperti \textit{kernel} dan \textit{shell}.
+    \item Menguraikan hierarki sistem berkas Linux dan melakukan navigasi direktori melalui Antarmuka Baris Perintah (CLI).
+    \item Menerapkan aturan sintaks perintah Linux, termasuk penggunaan \textit{flag} dan argumen secara tepat.
+    \item Mengoperasikan perintah-perintah dasar untuk manajemen berkas dan direktori (seperti \texttt{ls}, \texttt{cd}, \texttt{mkdir}, \texttt{rm}, \texttt{cp}, \texttt{mv}, \texttt{touch}, dan \texttt{cat}).
+    \item Memahami konsep kepemilikan (\textit{ownership}) dan hak akses (\textit{permissions}) pada lingkungan berbasis Unix.
+    \item Mengonfigurasi hak akses dan kepemilikan menggunakan \texttt{chmod} dan \texttt{chown}, serta memahami penggunaan otorisasi \textit{superuser} (\texttt{sudo}).
 \end{enumerate}
 
 \subsection{Output Praktikum}
-Pada akhir praktikum ini, mahasiswa diharapkan menghasilkan:
+Pada akhir praktikum ini, mahasiswa diharapkan menghasilkan luaran berupa:
 \begin{itemize}
-	\item Direktori dan file rekayasa yang berhasil dibuat, disalin, dipindahkan, dan dimanipulasi melalui terminal CLI.
-	\item Log atau dokumentasi perubahan hak akses pada file menggunakan kombinasi izin \textit{read, write, execute}.
-	\item Pemahaman komprehensif terkait perbedaan operasi pengguna biasa (\texttt{\$}) dibandingkan dengan \textit{superuser} (\texttt{\#}).
+    \item Struktur direktori dan berkas rekayasa hasil manipulasi (pembuatan, penyalinan, pemindahan) yang dilakukan melalui terminal CLI.
+    \item Dokumentasi log modifikasi hak akses berkas menggunakan kombinasi izin \textit{read, write,} dan \textit{execute}.
+    \item Pemahaman perbedaan eksekusi perintah antara pengguna biasa (\texttt{\$}) dan \textit{superuser} (\texttt{\#}).
 \end{itemize}
 
 % --- 2. Dasar Teori ---
 \newpage
 \section{Dasar Teori}
 
-\subsection{Arsitektur Dasar: Kernel, Shell, dan Terminal}
-Linux adalah sistem operasi berbasis Unix yang bersifat \textit{open-source}, artinya kode sumbernya tersedia untuk publik dan siapa saja dapat mengaksesnya, mengubahnya, atau menyebarluaskan ulang \cite{das2012unix}. 
-Dalam arsitekturnya, Linux memiliki \textit{kernel} yang terdiri dari sejumlah modul dan komponen yang membentuk bagian inti sistem operasi \cite{Silberschatz2018}. Kernel bertanggung jawab untuk mengatur komunikasi antara perangkat keras dan perangkat lunak, serta mengatur penggunaan memori dan prosesor. 
-
-Untuk berinteraksi dengan kernel, pengguna menggunakan antarmuka baris perintah atau Terminal \cite{shotts2019linux}. Perintah pada Linux dieksekusi melalui \textit{shell}, yaitu program yang menyediakan lingkungan kerja bagi pengguna untuk berinteraksi dengan sistem operasi melalui perintah-perintah yang dijalankan pada terminal. 
-
-\subsection{Sistem File dan Sintaks Perintah}
-File system pada Linux disusun dalam sebuah hirarki dengan root (\texttt{/}) sebagai induknya, dan setiap direktori dan file memiliki hak akses yang dapat dikonfigurasi oleh pengguna \cite{das2012unix}. 
-Saat berinteraksi di Terminal, setiap perintah memiliki struktur sintaks yang terdiri dari Perintah Dasar, \textit{Flag}, dan Argumen:
+\subsection{Komponen Utama Linux}
+Linux adalah sistem operasi berbasis Unix yang bersifat \textit{open-source} \cite{das2012unix}. Untuk memahami cara kerjanya, pengguna perlu mengetahui tiga komponen utama berikut:
 \begin{itemize}
-	\item \textbf{Argument}: Nilai atau data yang diperlukan oleh perintah untuk menjalankan tugasnya \cite{shotts2019linux}. Argument dapat berupa file, direktori, atau opsi lain.
-	\item \textbf{Flag}: Opsi tambahan pada perintah yang memberikan perintah tambahan yang dapat mempengaruhi cara kerja perintah. Flag dinyatakan dengan menggunakan tanda "-" (misalnya \texttt{ls -l}).
+    \item \textbf{\textit{Kernel}}: Bagian inti sistem operasi yang mengatur komunikasi antara perangkat keras (memori, prosesor) dan perangkat lunak \cite{Silberschatz2018}.
+    \item \textbf{\textit{Terminal}}: Antarmuka berbasis teks tempat pengguna mengetikkan perintah \cite{shotts2019linux}.
+    \item \textbf{\textit{Shell}}: Program penerjemah yang mengambil perintah dari terminal, mengeksekusinya, dan meneruskannya ke \textit{kernel}.
 \end{itemize}
 
-\subsection{Hak Akses (Permissions), Kepemilikan, dan Superuser}
-Setiap file dan direktori memiliki "gembok" hak akses yang dibagi menjadi tiga jenis izin utama: \textit{Read} (r), \textit{Write} (w), dan \textit{Execute} (x). Untuk mengubah gembok tersebut digunakan perintah \texttt{chmod}, dan untuk mengubah pemilik digunakan \texttt{chown}.
+\subsection{Sistem Berkas dan Sintaks}
+Sistem berkas pada Linux disusun dalam hierarki pohon terbalik dengan \textit{root} (\texttt{/}) sebagai induk tertingginya \cite{das2012unix}. Saat bernavigasi dan berinteraksi di Terminal, pengguna menggunakan sintaks dasar dengan struktur: \textbf{Perintah Dasar + \textit{Flag} + Argumen}.
 
-Beberapa perintah pada Linux memerlukan hak \textit{superuser} atau hak administratif. Pengguna harus masuk sebagai root atau menggunakan perintah \texttt{sudo} untuk memberikan hak superuser pada perintah \cite{shotts2019linux}. 
-
-Perhatikan tanda \textit{prompt} pada terminal Anda:
 \begin{itemize}
-	\item Tanda pagar \texttt{\#} menandakan Anda sedang menggunakan \textit{user root}.
-	\item Tanda dolar \texttt{\$} menandakan Anda menggunakan \textit{user} biasa.
+    \item \textbf{\textit{Flag}}: Opsi untuk mengubah perilaku perintah. Biasanya diawali tanda hubung "-" (contoh: \texttt{ls -l} untuk format detail).
+    \item \textbf{Argumen}: Objek atau target data yang dikenai perintah, seperti nama file atau direktori (contoh: \texttt{rm dokumen.txt}) \cite{shotts2019linux}.
 \end{itemize}
-Jika Anda ingin menjalankan perintah administratif dari \textit{user} biasa (\texttt{\$}), tambahkan \texttt{sudo} di awal perintah \cite{shotts2019linux}.
 
-Tabel \ref{tab:m03-dasar-teori} merangkum hal-hal penting terkait perintah dasar CLI.
+\subsection{Manajemen Hak Akses}
+
+Setiap file dan direktori di Linux memiliki hak akses yang diatur untuk tiga kelompok pengguna: \textit{Owner} (Pemilik), \textit{Group} (Grup), dan \textit{Others} (Pengguna Lain). Terdapat tiga jenis izin utama:
+\begin{itemize}
+    \item \textbf{\textit{Read} (r)}: Hak untuk membaca atau melihat isi file/direktori.
+    \item \textbf{\textit{Write} (w)}: Hak untuk mengubah, menambah, atau menghapus file.
+    \item \textbf{\textit{Execute} (x)}: Hak untuk menjalankan file sebagai program (skrip).
+\end{itemize}
+
+Untuk mengubah izin ini, digunakan perintah \texttt{chmod}. Selain menggunakan huruf (\textit{r, w, x}), \texttt{chmod} juga sering digunakan dengan angka (mode oktal) seperti rincian berikut:
+
 \begin{table}[H]
-	\caption{Tabel Ringkasan Perintah Dasar Linux}
-	\label{tab:m03-dasar-teori}
-	\centering
-	\begin{tabular}{|l|p{9cm}|}
-		\hline
-		\textbf{Perintah} & \textbf{Deskripsi Singkat} \\ \hline
-		\texttt{ls} & Melihat daftar file, folder di dalam direktori. \\ \hline
-		\texttt{pwd} & Memeriksa \textit{path} atau alamat direktori yang saat ini diakses. \\ \hline
-		\texttt{cd} & Pindah ke direktori lain. \\ \hline
-		\texttt{mkdir} & Membuat direktori baru. \\ \hline
-		\texttt{rm} & Menghapus file atau direktori. \\ \hline
-		\texttt{cp} & Menyalin file dari satu lokasi ke lokasi lain. \\ \hline
-		\texttt{mv} & Memindahkan file dari satu lokasi ke lokasi lain atau mengubah nama file. \\ \hline
-		\texttt{touch} & Membuat file kosong atau memperbarui waktu akses dan modifikasi file. \\ \hline
-		\texttt{cat} & Menampilkan isi file ke terminal. \\ \hline
-		\texttt{nano} & Membuka editor teks nano untuk mengedit file teks. \\ \hline
-		\texttt{ps} & Menampilkan daftar proses yang sedang berjalan di sistem. \\ \hline
-		\texttt{kill} & Menghentikan proses yang sedang berjalan. \\ \hline
-		\texttt{chmod} & Mengubah hak akses (\textit{r, w, x}) sebuah file/direktori. \\ \hline
-	\end{tabular}
+    \caption{Nilai Oktal Hak Akses File}
+    \label{tab:chmod-oktal}
+    \centering
+    \begin{tabular}{|c|c|l|}
+        \hline
+        \textbf{Nilai} & \textbf{Simbol} & \textbf{Deskripsi} \\ \hline
+        4 & \texttt{r--} & \textit{Read only} \\ \hline
+        2 & \texttt{-w-} & \textit{Write only} \\ \hline
+        1 & \texttt{--x} & \textit{Execute only} \\ \hline
+        7 & \texttt{rwx} & Akses Penuh (4+2+1) \\ \hline
+    \end{tabular}
+\end{table}
+
+Sementara itu, untuk mengubah pemilik dari sebuah file, sistem menggunakan perintah \texttt{chown}.
+
+\subsection{Otorisasi \textit{Superuser}}
+Beberapa perintah krusial yang dapat mengubah sistem secara fatal memerlukan hak administratif (\textit{superuser} atau \textit{root}). Anda dapat membedakan status Anda saat ini melalui tanda \textit{prompt} pada terminal:
+\begin{itemize}
+    \item Tanda dolar \textbf{\texttt{\$}}: Menandakan Anda bertindak sebagai \textit{user} biasa.
+    \item Tanda pagar \textbf{\texttt{\#}}: Menandakan Anda bertindak sebagai \textit{root/superuser}.
+\end{itemize}
+Jika Anda login sebagai \textit{user} biasa namun perlu menjalankan perintah administratif, tambahkan perintah \textbf{\texttt{sudo}} (\textit{SuperUser DO}) di awal baris perintah \cite{shotts2019linux}.
+
+\subsection{Perintah Dasar CLI}
+Tabel \ref{tab:m03-dasar-teori} merangkum berbagai perintah esensial yang akan digunakan selama praktikum sesi ini.
+
+\begin{table}[H]
+    \caption{Tabel Ringkasan Perintah Dasar Linux}
+    \label{tab:m03-dasar-teori}
+    \centering
+    \begin{tabular}{|l|p{10cm}|}
+        \hline
+        \textbf{Perintah} & \textbf{Deskripsi Singkat} \\ \hline
+        \texttt{ls} & Melihat daftar file dan folder di dalam direktori. \\ \hline
+        \texttt{pwd} & Memeriksa \textit{path} atau alamat direktori saat ini. \\ \hline
+        \texttt{cd} & Berpindah ke direktori lain. \\ \hline
+        \texttt{mkdir} & Membuat direktori (folder) baru. \\ \hline
+        \texttt{rm} & Menghapus file atau direktori. \\ \hline
+        \texttt{cp} & Menyalin file/direktori dari satu lokasi ke lokasi lain. \\ \hline
+        \texttt{mv} & Memindahkan file atau mengubah nama file (\textit{rename}). \\ \hline
+        \texttt{touch} & Membuat file teks kosong. \\ \hline
+        \texttt{cat} & Menampilkan isi file teks langsung ke layar terminal. \\ \hline
+        \texttt{nano} & Membuka teks editor bawaan terminal. \\ \hline
+        \texttt{ps} & Menampilkan daftar proses yang sedang berjalan. \\ \hline
+        \texttt{kill} & Menghentikan proses yang sedang berjalan. \\ \hline
+        \texttt{chmod} & Mengubah hak akses (\textit{r, w, x}) sebuah file/direktori. \\ \hline
+    \end{tabular}
 \end{table}
 
 % --- 3. Alat dan Bahan ---
@@ -95,8 +122,6 @@ Tabel \ref{tab:m03-dasar-teori} merangkum hal-hal penting terkait perintah dasar
 
 \subsection{Perangkat Lunak}
 \begin{itemize}
-	\item Sistem Operasi utama (Windows, macOS, atau Linux) sebagai \textit{Host OS}.
-	\item Oracle VM VirtualBox.
 	\item Mesin Virtual Ubuntu (Guest OS) yang telah diinstal pada pertemuan sebelumnya.
 \end{itemize}
 
@@ -104,125 +129,123 @@ Tabel \ref{tab:m03-dasar-teori} merangkum hal-hal penting terkait perintah dasar
 \newpage
 \section{Langkah-Langkah Praktikum}
 
-\subsection{Persiapan Lingkungan}
-\label{sec:m03-persiapan}
-Pastikan \textit{Virtual Machine} Ubuntu Anda sudah menyala dan Anda telah berhasil \textit{login}.
-\begin{enumerate}
-	\item Buka terminal dengan menekan tombol \texttt{Ctrl+Alt+T} secara bersamaan.
-	\item Gunakan \texttt{pwd} untuk memeriksa path atau alamat yang saat ini diakses.
-	\begin{lstlisting}[language=bash, caption={Perintah memverifikasi lokasi direktori saat ini}]
-		$ pwd
-	\end{lstlisting}
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=0.75\textwidth]{Figure/03/gambar1.png}
-		\caption{Tampilan terminal saat memverifikasi lokasi direktori menggunakan perintah \texttt{pwd}.}
-		\label{fig:m03-gambar1}
-	\end{figure}
-\end{enumerate}
-
-\subsection{Sesi 1: Manipulasi Direktori dan File}
-\label{sec:m03-sesi-1}
-Pada sesi ini, kita akan membuat, menyalin, dan memindahkan file menggunakan perintah dasar.
+Berikut adalah tahapan-tahapan yang harus Anda selesaikan secara berurutan selama praktikum berlangsung:
 
 \begin{enumerate}
-	\item Buatlah sebuah direktori baru bernama \texttt{data} dan masuk ke dalamnya.
-	\begin{lstlisting}[language=bash, caption={Membuat dan masuk ke direktori baru}]
-		$ mkdir data
-		$ cd data
-	\end{lstlisting}
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=0.75\textwidth]{Figure/03/gambar2.png}
-		\caption{Proses pembuatan direktori baru dan berpindah ke dalamnya.}
-		\label{fig:m03-gambar2}
-	\end{figure}
-	
-	\item Membuat file teks menggunakan editor teks \texttt{nano}.
-	\begin{lstlisting}[language=bash, caption={Membuka editor nano}]
-		$ nano belajarlinux.txt
-	\end{lstlisting}
-	Ketikkan nama dan NIM Anda di dalamnya. Klik \texttt{ctrl+o} (untuk menyimpan) atau \texttt{ctrl+x} (untuk keluar), kemudian enter.
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=0.75\textwidth]{Figure/03/gambar3.png}
-		\caption{Tampilan editor teks \texttt{nano} saat mengedit file.}
-		\label{fig:m03-gambar3}
-	\end{figure}
-	
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=0.75\textwidth]{Figure/03/gambar4.png}
-		\caption{Menampilkan isi file teks ke terminal menggunakan perintah \texttt{cat}.}
-		\label{fig:m03-gambar4}
-	\end{figure}
-	
-	\item Menampilkan isi file ke terminal menggunakan perintah \texttt{cat}.
-	\begin{lstlisting}[language=bash, caption={Menampilkan isi file}]
-		$ cat belajarlinux.txt
-	\end{lstlisting}
-	
-	\item Membuat direktori baru bernama \texttt{data2} dan menyalin file ke dalamnya.
-	\begin{lstlisting}[language=bash, caption={Menyalin file menggunakan cp}]
-		$ mkdir data2
-		$ cp belajarlinux.txt data2/
-		$ ls data2/
-	\end{lstlisting}
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=0.75\textwidth]{Figure/03/gambar5.png}
-		\caption{Proses penyalinan file ke dalam direktori tujuan dan verifikasinya.}
-		\label{fig:m03-gambar5}
-	\end{figure}
-	
-	\item Memindahkan file atau mengubah nama file menggunakan perintah \texttt{mv}.
-	\begin{lstlisting}[language=bash, caption={Mengubah nama file menggunakan mv}]
-		$ cd data2
-		$ mv belajarlinux.txt belajarlagi.txt
-		$ ls
-	\end{lstlisting}
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=0.75\textwidth]{Figure/03/gambar6.png}
-		\caption{Pengubahan nama file menggunakan perintah \texttt{mv}.}
-		\label{fig:m03-gambar6}
-	\end{figure}
-\end{enumerate}
+    \item \textbf{Persiapan Lingkungan}
+    
+    Pastikan \textit{Virtual Machine} Ubuntu Anda sudah menyala dan Anda telah berhasil \textit{login}.
+    \begin{enumerate}
+        \item Buka terminal dengan menekan tombol \texttt{Ctrl+Alt+T} secara bersamaan.
+        \item Gunakan perintah \texttt{pwd} untuk memeriksa \textit{path} atau alamat direktori yang saat ini diakses.
+        \begin{lstlisting}[language=bash, caption={Perintah memverifikasi lokasi direktori saat ini}]
+    $ pwd
+        \end{lstlisting}
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.75\textwidth]{Figure/03/gambar1.png}
+            \caption{Tampilan terminal saat memverifikasi lokasi direktori menggunakan perintah \texttt{pwd}.}
+            \label{fig:m03-gambar1}
+        \end{figure}
+    \end{enumerate}
 
-\subsection{Sesi 2: Manipulasi Hak Akses}
-\label{sec:m03-sesi-2}
-Di sini, kita akan mencoba mengubah "kunci gembok" dari file yang sudah kita buat sebelumnya. 
+    \vspace{1em}
+    \item \textbf{Manipulasi Direktori dan Berkas}
+    
+    Pada tahap ini, Anda akan membuat, menyalin, dan memindahkan berkas menggunakan perintah dasar CLI.
+    \begin{enumerate}
+        \item Buatlah sebuah direktori baru bernama \texttt{data} dan masuk ke dalamnya menggunakan perintah \texttt{cd}.
+        \begin{lstlisting}[language=bash, caption={Membuat dan masuk ke direktori baru}]
+    $ mkdir data
+    $ cd data
+        \end{lstlisting}
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.75\textwidth]{Figure/03/gambar2.png}
+            \caption{Proses pembuatan direktori baru dan berpindah ke dalamnya.}
+            \label{fig:m03-gambar2}
+        \end{figure}
+        
+        \item Buatlah berkas teks baru menggunakan teks editor \texttt{nano}.
+        \begin{lstlisting}[language=bash, caption={Membuka editor nano}]
+    $ nano belajarlinux.txt
+        \end{lstlisting}
+        Ketikkan Nama dan NIM Anda di dalamnya. Simpan perubahan dengan menekan \texttt{Ctrl+O} lalu tekan \texttt{Enter}. Setelah itu, keluar dari editor dengan menekan \texttt{Ctrl+X}.
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.75\textwidth]{Figure/03/gambar4.png}
+            \caption{Tampilan editor teks \texttt{nano} saat mengedit berkas.}
+            \label{fig:m03-gambar3}
+        \end{figure}
+        
+        \item Tampilkan isi berkas yang baru saja dibuat ke layar terminal menggunakan perintah \texttt{cat}.
+        \begin{lstlisting}[language=bash, caption={Menampilkan isi berkas}]
+    $ cat belajarlinux.txt
+        \end{lstlisting}
+        
+        \item Buat direktori baru bernama \texttt{data2} dan salin berkas \texttt{belajarlinux.txt} ke dalamnya.
+        \begin{lstlisting}[language=bash, caption={Menyalin berkas menggunakan cp}]
+    $ mkdir data2
+    $ cp belajarlinux.txt data2/
+    $ ls data2/
+        \end{lstlisting}
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.75\textwidth]{Figure/03/gambar5.png}
+            \caption{Proses penyalinan berkas ke dalam direktori tujuan beserta verifikasinya.}
+            \label{fig:m03-gambar5}
+        \end{figure}
+        
+        \item Pindah ke direktori \texttt{data2} dan ubah nama berkas menggunakan perintah \texttt{mv}.
+        \begin{lstlisting}[language=bash, caption={Mengubah nama berkas menggunakan mv}]
+    $ cd data2
+    $ mv belajarlinux.txt belajarlagi.txt
+    $ ls
+        \end{lstlisting}
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.75\textwidth]{Figure/03/gambar6.png}
+            \caption{Pengubahan nama berkas menggunakan perintah \texttt{mv}.}
+            \label{fig:m03-gambar6}
+        \end{figure}
+    \end{enumerate}
 
-\begin{enumerate}
-	\item Hapus hak akses baca dan tulis untuk pengguna asing (\textit{others}) pada file \texttt{belajarlagi.txt}.
-	\begin{lstlisting}[language=bash, caption={Mengubah hak akses file}]
-		$ chmod o-rw belajarlagi.txt
-		
-		# Verifikasi perubahan hak akses, perhatikan deretan huruf di sebelah kiri
-		$ ls -l
-	\end{lstlisting}
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=0.75\textwidth]{Figure/03/gambar7.png}
-		\caption{Status hak akses file sebelum atau saat dilakukan modifikasi.}
-		\label{fig:m03-gambar7}
-	\end{figure}
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=0.75\textwidth]{Figure/03/gambar8.png}
-		\caption{Status hak akses file setelah dilakukan modifikasi dengan \texttt{chmod}.}
-		\label{fig:m03-gambar8}
-	\end{figure}
-	
-	\item Coba ubah kepemilikan file tersebut menjadi milik pengguna \texttt{root}. Anda memerlukan perintah \texttt{sudo} untuk melakukannya.
-	\begin{lstlisting}[language=bash, caption={Menggunakan sudo untuk mengubah owner}]
-		$ sudo chown root belajarlagi.txt
-		$ ls -l
-	\end{lstlisting}
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=0.75\textwidth]{Figure/03/gambar9.png}
-		\caption{Perubahan kepemilikan file menjadi pengguna \texttt{root}.}
-		\label{fig:m03-gambar9}
-	\end{figure}
+    \vspace{1em}
+    \item \textbf{Manipulasi Hak Akses}
+    
+    Pada tahap ini, Anda akan mencoba mengubah "kunci gembok" (\textit{permissions}) dari berkas yang sudah dibuat sebelumnya. 
+    \begin{enumerate}
+        \item Hapus hak akses baca (\textit{read}) dan tulis (\textit{write}) untuk pengguna asing (\textit{others}) pada berkas \texttt{belajarlagi.txt} dengan menggunakan parameter \texttt{o-rw}.
+        \begin{lstlisting}[language=bash, caption={Mengubah hak akses berkas}]
+    $ chmod o-rw belajarlagi.txt
+    
+    # Verifikasi perubahan hak akses, perhatikan deretan huruf di sebelah kiri
+    $ ls -l
+        \end{lstlisting}
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.75\textwidth]{Figure/03/gambar7.png}
+            \caption{Status hak akses berkas sebelum dilakukan modifikasi.}
+            \label{fig:m03-gambar7}
+        \end{figure}
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.75\textwidth]{Figure/03/gambar8.png}
+            \caption{Status hak akses berkas setelah modifikasi dengan \texttt{chmod}.}
+            \label{fig:m03-gambar8}
+        \end{figure}
+        
+        \item Coba ubah kepemilikan berkas tersebut menjadi milik pengguna \texttt{root}. Karena ini merupakan tindakan administratif, Anda memerlukan perintah \texttt{sudo} di awal baris.
+        \begin{lstlisting}[language=bash, caption={Menggunakan sudo untuk mengubah owner}]
+    $ sudo chown root belajarlagi.txt
+    $ ls -l
+        \end{lstlisting}
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.75\textwidth]{Figure/03/gambar9.png}
+            \caption{Perubahan kepemilikan berkas menjadi pengguna \texttt{root}.}
+            \label{fig:m03-gambar9}
+        \end{figure}
+    \end{enumerate}
+
 \end{enumerate}
