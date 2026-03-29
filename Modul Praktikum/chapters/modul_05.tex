@@ -27,22 +27,22 @@ Pada akhir praktikum ini, mahasiswa diharapkan menghasilkan:
 \section{Dasar Teori}
 
 \subsection{GNU Compiler Collection (GCC)}
-GCC awalnya merupakan \textit{GNU C Compiler}, namun kini telah berkembang mendukung berbagai bahasa pemrograman seperti C, C++, Objective-C, Fortran, Ada, Go, dan D \cite{gough2004introduction}. GCC adalah standar kompiler yang banyak digunakan dalam sistem operasi mirip UNIX (Unix-like), terutama distribusi Linux. GCC dirancang agar kuat, fleksibel, teroptimasi, dan mendukung banyak arsitektur komponen keras.
+GCC awalnya merupakan \textit{GNU C Compiler}, namun kini telah berkembang mendukung berbagai bahasa pemrograman seperti C, C++, Objective-C, Fortran, Ada, Go, dan D \cite{gough2004introduction}. GCC adalah standar kompiler yang banyak digunakan dalam sistem operasi mirip UNIX (Unix-like), terutama distribusi Linux. GCC dirancang agar kuat, fleksibel, teroptimasi, dan mendukung banyak arsitektur perangkat keras.
 
 \subsection{Tahapan Kompilasi GCC}
 Proses mengubah (\textit{build}) suatu kode sumber bahasa tingkat tinggi (seperti C) menjadi program (\textit{executable}) yang bisa dijalankan komputer dilakukan melalui 4 proses sekuensial \cite{bryant2015computer}:
 
 \subsubsection{Preprocessing (Pra-kompilasi)}
-Pada tahap ini, kompiler menginisialisasi pengerjaan arahan preprosesor (seperti \texttt{\#include}, \texttt{\#define}). Ia menambahkan kode dari \textit{header file}, mengganti makro, dan membuang komentar pada kode sumber awal (misal \texttt{main.c}). Tahapan ini mendayagunakan perangkat lunak \textit{C Preprocessor} (\texttt{cpp}) dan menghasilkan File berekstensi \texttt{.i}.
+Pada tahap ini, kompiler menginisialisasi pengerjaan arahan preprosesor (seperti \texttt{\#include}, \texttt{\#define}). Ia menambahkan kode dari \textit{header file}, mengganti makro, dan membuang komentar pada kode sumber awal (misal \texttt{main.c}). Tahapan ini mendayagunakan perangkat lunak \textit{C Preprocessor} (\texttt{cpp}) dan menghasilkan file berekstensi \texttt{.i}.
 
 \subsubsection{Compilation (Kompilasi)}
 Tahap ini mengambil keluaran dari preprosesor (\texttt{.i}) lalu menerjemahkannya ke dalam kode bahasa rakitan (\textit{assembly language}) spesifik sesuai arsitektur mesin tujuan. Hasil dari tahap kompilasi ini adalah sebuah teks instruksi assembli berekstensi \texttt{.s}.
 
 \subsubsection{Assembly (Perakitan)}
-Kode \textit{assembly} (\texttt{.s}) diproses ke dalam bahasa mesin (\textit{machine level language} berformat biner) yang dapat dimengerti sistem komputer. Perangkat lunak yang merangkap proses ini disebut \textit{Assembler} (\texttt{as}). Output dari tahapan ini adalah file objek (\textit{object file}) berekstensi \texttt{.o}. File ini masih belum bisa diseksekusi sebelum dihubungkan dengan library atau file objek lain.
+Kode \textit{assembly} (\texttt{.s}) diproses ke dalam bahasa mesin (\textit{machine level language} berformat biner) yang dapat dimengerti sistem komputer. Perangkat lunak yang merangkap proses ini disebut \textit{Assembler} (\texttt{as}). Output dari tahapan ini adalah file objek (\textit{object file}) berekstensi \texttt{.o}. File ini masih belum bisa dieksekusi sebelum dihubungkan dengan library atau file objek lain.
 
 \subsubsection{Linking (Penautan)}
-Fase terakhir merupakan tahap penggabungan berbagai file objek pendukung (\texttt{.o}) dengan File pustaka bawaan (\textit{library file}). Contoh umum adalah penautan dengan glibc (standar pustaka C). Jika menggunakan pustaka pihak ketiga semisal \textit{math} atau \textit{pthread}, tautannya juga dideklarasikan di sini (\texttt{-lm}, \texttt{-lpthread}). Perangkat lunaknya dinamai \textit{Linker} (\texttt{ld}). Outputnya adalah file \textit{executable}.
+Fase terakhir merupakan tahap penggabungan di mana berbagai file objek pendukung (\texttt{.o}) disatukan menjadi satu program utuh beserta file pustaka bawaan (\textit{library file}). Contoh umum adalah penautan dengan glibc (standar pustaka C). Jika menggunakan pustaka pihak ketiga semisal \textit{math} atau \textit{pthread}, tautannya juga dideklarasikan di sini (\texttt{-lm}, \texttt{-lpthread}). Perangkat lunaknya dinamai \textit{Linker} (\texttt{ld}). Outputnya adalah file \textit{executable}.
 
 Tabel \ref{tab:m05-dasar-teori} merangkum hal-hal penting terkait flag GCC yang sering digunakan.
 
@@ -58,7 +58,7 @@ Tabel \ref{tab:m05-dasar-teori} merangkum hal-hal penting terkait flag GCC yang 
 		\texttt{-E}     & Berhenti setelah tahap Preprocessing tanpa melakukan yang lain \\ \hline
 		\texttt{-S}     & Hasilkan file .s, jangan assemble (berhenti di tahap Compilation) \\ \hline
 		\texttt{-c}     & Menghasilkan file output berbentuk assembli murni atau .o (berhenti di tahap Assembly) \\ \hline
-		\texttt{-g}     & Sertakan informasi *debugging* (berguna menggunakan GDB) \\ \hline
+		\texttt{-g}     & Sertakan informasi \textit{debugging} (berguna menggunakan GDB) \\ \hline
 	\end{tabulary}
 \end{table}
 
@@ -121,7 +121,7 @@ Kita akan membongkar proses kompilasi penuh sebuah program C sederhana menggunak
 Berikut adalah tahapan-tahapan yang harus Anda selesaikan secara berurutan:
 
 \begin{enumerate}
-	\item Buatlah sebuah File kode sumber C bernama \texttt{salam.c} menggunakan teks editor terminal \texttt{nano}:
+	\item Buatlah sebuah file kode sumber C bernama \texttt{salam.c} menggunakan teks editor terminal \texttt{nano}:
 	      \begin{lstlisting}[language=bash, caption={Membuat file dengan nano}]
 nano salam.c
     \end{lstlisting}

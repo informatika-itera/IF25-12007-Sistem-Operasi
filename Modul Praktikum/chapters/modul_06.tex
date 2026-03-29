@@ -50,7 +50,7 @@ target: prerequisites (syarat/dependensi)
 
 \subsection{Variabel (Makro) dalam Make}
 Untuk menghindari pengetikan ulang dan mempermudah perubahan konfigurasi, Makefile mendukung variabel. Misalnya, menentukan tipe kompiler.
-Contoh inisialisasi: \texttt{CC = gcc}. Cara memanggilnya adalah menggunakan perisai dolar dan kurung: \texttt{\$(CC)}.
+Contoh inisialisasi: \texttt{CC = gcc}. Cara memanggilnya adalah menggunakan simbol dolar dan kurung: \texttt{\$(CC)}.
 
 Selain variabel kustom buatan manusia, Makefile memiliki \textbf{Variabel Otomatis} (\textit{Automatic Variables}) yang nilainya dievaluasi seketika bergantung pada konteks aturannya. Tabel \ref{tab:m06-dasar-teori} merangkum beberapa hal terpenting.
 
@@ -220,7 +220,7 @@ Di sesi lanjutan ini, kita akan mereplikasi gaya perakitan file asli program-pro
 Berikut adalah tahapan-tahapan yang harus Anda selesaikan secara berurutan:
 
 \begin{enumerate}
-	\item Mari kita buat dua file C, satu perpustakaan (`.h`), satu turunan (`.c`), dan satu fungsi gerbang pusar (`.c`).
+	\item Mari kita buat dua file C, satu perpustakaan (`.h`), satu turunan (`.c`), dan satu fungsi utama (`.c`).
 
 	      \textbf{Bagian 1: Matematika.h}\\
 	      Jalankan: \texttt{nano matematika.h}
@@ -275,17 +275,23 @@ int main() {
 
 	\item Sekarang, hapus/timpa isi `Makefile` lama kita sebelumnya dan gunakan skrip utuh canggih berikut.\\
 	      Jalankan: \texttt{nano Makefile}, kemudian copot/hapus isinya lalu ganti menjadi ini.\\
-	      \textbf{Pengingat Jarak TAB:} Pastikan untuk setiap lajur baru \textit{Recipe/Perintah terminal} di bawah tulisan berawalan tab, yakni tepatnya berada pada awal baris ke-6 dan ke-9 di bawah ini mengandalkan tombol \lstinline{<TAB>}.
+	      \textbf{Pengingat Jarak TAB:} Pastikan untuk setiap lajur baru \textit{Recipe/Perintah terminal} di bawah ini (yakni baris yang memiliki indentasi) ditekan murni menggunakan tombol \lstinline{<TAB>}.
 
 	      \begin{lstlisting}[language=make, caption={Makefile Lanjut dengan Macro dan Target}]
 CC = gcc
 CFLAGS = -Wall
 
-# "$^" bermagnitudo semua prerequisites, "$@" adalah Target yaitu 'aplikasi'
-aplikasi: main.c matematika.c
+# "$^" merepresentasikan semua prerequisites, "$@" adalah Target yaitu 'aplikasi'
+aplikasi: main.o matematika.o
 	$(CC) $(CFLAGS) $^ -o $@
 
-# Perintah clean akan merestorasi folder kerja menjadi rapi
+main.o: main.c matematika.h
+	$(CC) $(CFLAGS) -c main.c
+
+matematika.o: matematika.c matematika.h
+	$(CC) $(CFLAGS) -c matematika.c
+
+# Perintah clean akan menghapus file objek dan executable
 clean:
 	rm -f aplikasi *.o
     \end{lstlisting}
@@ -312,8 +318,8 @@ make
 		      \label{fig:m06-make-compile-3}
 	      \end{figure}
 
-	\item Terakhir, panggil perintah target buatan Anda untuk mengkandaskan/membersihkan file executable sisa sehingga ruang kerja kembali murni hanya berisi \textit{source code} C saja.
-	      \begin{lstlisting}[language=bash, caption={Merobohkan file hasil eksekusi}]
+	\item Terakhir, panggil perintah target buatan Anda untuk menghapus file \textit{executable} dan objek sisa sehingga direktori kerja kembali bersih berisi \textit{source code} C saja.
+	      \begin{lstlisting}[language=bash, caption={Menghapus file hasil eksekusi}]
 make clean
 ls
     \end{lstlisting}
