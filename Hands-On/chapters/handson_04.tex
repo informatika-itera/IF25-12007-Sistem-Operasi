@@ -185,15 +185,15 @@ struct thread *running_thread(void) {
     \textbf{Urutan push} & \textbf{Nama frame} &
     \textbf{Field penting} & \textbf{Nilai yang diisi} \\
     \hline
-    1 --- paling atas & \texttt{kernel\_thread\_frame} &
+    1 --- paling atas & \texttt{kernel\_\allowbreak thread\_\allowbreak frame} &
         \texttt{eip}, \texttt{function}, \texttt{aux} &
         \textit{[Isi]} \\
     \hline
-    2 --- tengah & \texttt{switch\_entry\_frame} &
+    2 --- tengah & \texttt{switch\_\allowbreak entry\_\allowbreak frame} &
         \texttt{eip} &
         \textit{[Isi]} \\
     \hline
-    3 --- paling bawah & \texttt{switch\_threads\_frame} &
+    3 --- paling bawah & \texttt{switch\_\allowbreak threads\_\allowbreak frame} &
         \texttt{eip}, register \textit{callee-saved} &
         \textit{[Isi]} \\
     \hline
