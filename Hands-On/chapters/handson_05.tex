@@ -7,7 +7,7 @@
 
 \section{Tujuan}
 
-Kerjakan tugas-tugas berikut secara berurutan mengikuti alur sesi pada Modul 9 dan Modul 10. Sertakan bukti berupa \textit{screenshot} layar QEMU atau penggalan kode yang relevan pada setiap langkah yang diminta.
+Kerjakan tugas-tugas berikut secara berurutan mengikuti alur sesi pada Modul 9 dan Modul 10. Sertakan bukti berupa tangkapan layar (\textit{screenshot}) QEMU atau penggalan kode yang relevan pada setiap langkah yang diminta.
 
 % ============================================================
 \section{Sesi 1 — Menjalankan Demo Race Condition}
@@ -15,40 +15,50 @@ Kerjakan tugas-tugas berikut secara berurutan mengikuti alur sesi pada Modul 9 d
 
 \subsection{Persiapan dan Kompilasi}
 
-Pastikan implementasi Minggu 4 sudah berfungsi, lalu \textit{compile} dengan flag sinkronisasi diaktifkan.
+Pastikan implementasi Minggu 4 sudah berfungsi, lalu kompilasi dengan \textit{flag} sinkronisasi diaktifkan.
 
 \begin{enumerate}
 
-    \item Jalankan perintah berikut untuk \textit{compile} dan menjalankan kernel dengan flag \texttt{SYNCHRONIZATION}:
-    \begin{lstlisting}[language=bash, caption={Compile dan jalankan demo race condition}]
+	\item Jalankan perintah berikut untuk mengompilasi dan menjalankan kernel dengan \textit{flag} \texttt{SYNCHRONIZATION}:
+	      \begin{lstlisting}[language=bash, caption={Compile dan jalankan demo race condition}]
 make clean
 make DEMO=-DSYNCHRONIZATION
 make run
     \end{lstlisting}
 
-    Amati output yang muncul selama $\pm$15 detik, lalu \textit{screenshot} layar QEMU. Tempel hasil \textit{screenshot} di sini:
+	      Amati keluaran (\textit{output}) yang muncul selama $\pm$15 detik, lalu ambil tangkapan layar (\textit{screenshot}) pada layar QEMU. Tempel hasil tangkapan layar di sini:
 
-    \begin{figure}[htbp]
-        \centering
-        % Ganti dengan screenshot output QEMU saat race condition
-        \includegraphics[width=0.85\textwidth]{Figure/handson05/1-race.png}
-        \caption{Output QEMU Modul 9 --- tanpa sinkronisasi.}
-        \label{fig:h05-1-race}
-    \end{figure}
+	      % \begin{figure}[htbp]
+	      %     \centering
+	      %     % Ganti dengan screenshot output QEMU saat race condition
+	      %     \includegraphics[width=0.85\textwidth]{Figure/handson05/1-race.png}
+	      %     \caption{Output QEMU Modul 9 --- tanpa sinkronisasi.}
+	      %     \label{fig:h05-1-race}
+	      % \end{figure}
 
-    \item Perhatikan output yang muncul. Isilah tabel berikut berdasarkan anomali yang kamu temukan pada layar QEMU.
+	      \begin{figure}[H]
+		      \centering
+		      \fbox{\begin{minipage}{0.92\linewidth}
+				      \centering\vspace{2.5cm}
+				      \textit{[Tempel screenshot layar di sini]}
+				      \vspace{2.5cm}
+			      \end{minipage}}
+		      \caption{Tampilan QEMU pada kondisi \textit{race condition} tanpa sinkronisasi.}
+	      \end{figure}
 
-    \begin{table}[htbp]
-    \centering
-    \caption{Anomali yang ditemukan pada output race condition}
-    \begin{tabulary}{\textwidth}{|c|L|L|}
-    \hline
-    \textbf{No.} & \textbf{Anomali yang Terlihat} & \textbf{Kemungkinan Penyebab} \\ \hline
-    1 & \textit{[contoh: baris terpotong di tengah]} & \textit{[Isi jawaban di sini]} \\ \hline
-    2 & \textit{[Isi jawaban di sini]} & \textit{[Isi jawaban di sini]} \\ \hline
-    3 & \textit{[Isi jawaban di sini]} & \textit{[Isi jawaban di sini]} \\ \hline
-    \end{tabulary}
-    \end{table}
+	\item Perhatikan output yang muncul. Isilah tabel berikut berdasarkan anomali yang kamu temukan pada layar QEMU.
+
+	      \begin{table}[htbp]
+		      \centering
+		      \caption{Anomali yang ditemukan pada output race condition}
+		      \begin{tabulary}{\textwidth}{|c|L|L|}
+			      \hline
+			      \textbf{No.} & \textbf{Anomali yang Terlihat} & \textbf{Kemungkinan Penyebab} \\ \hline
+			      1 & \textit{[contoh: baris terpotong di tengah]} & \textit{[Isi jawaban di sini]} \\ \hline
+			      2 & \textit{[Isi jawaban di sini]} & \textit{[Isi jawaban di sini]} \\ \hline
+			      3 & \textit{[Isi jawaban di sini]} & \textit{[Isi jawaban di sini]} \\ \hline
+		      \end{tabulary}
+	      \end{table}
 
 \end{enumerate}
 
@@ -57,78 +67,78 @@ make run
 
 \begin{enumerate}
 
-    \item Buka file \texttt{src/kernel.c} dan perhatikan fungsi \texttt{producer()} dan \texttt{consumer()}. Isilah tabel berikut untuk mengidentifikasi letak jebakan \texttt{thread\_yield()} pada masing-masing fungsi.
+	\item Buka file \texttt{src/kernel.c} dan perhatikan fungsi \texttt{producer()} dan \texttt{consumer()}. Isilah tabel berikut untuk mengidentifikasi letak jebakan \texttt{thread\_yield()} pada masing-masing fungsi.
 
-    \begin{table}[htbp]
-    \centering
-    \caption{Letak thread\_yield() yang berbahaya pada critical section}
-    \begin{tabulary}{\textwidth}{|l|L|L|}
-    \hline
-    \textbf{Fungsi} & \textbf{Posisi thread\_yield()} & \textbf{Akibat jika CPU berpindah di sini} \\ \hline
-    \texttt{producer()} & Setelah \texttt{shared\_buffer = item}, sebelum mencetak log & \textit{[Isi jawaban di sini]} \\ \hline
-    \texttt{consumer()} & Setelah mencetak \texttt{"membaca item "}, sebelum \texttt{putint()} & \textit{[Isi jawaban di sini]} \\ \hline
-    \end{tabulary}
-    \end{table}
+	      \begin{table}[htbp]
+		      \centering
+		      \caption{Letak \texttt{thread\_yield()} yang berbahaya pada \textit{critical section}}
+		      \begin{tabulary}{\textwidth}{|l|L|L|}
+			      \hline
+			      \textbf{Fungsi} & \textbf{Posisi thread\_yield()} & \textbf{Akibat jika CPU berpindah di sini} \\ \hline
+			      \texttt{producer()} & Setelah \texttt{shared\_buffer = item}, sebelum mencetak log & \textit{[Isi jawaban di sini]} \\ \hline
+			      \texttt{consumer()} & Setelah mencetak \texttt{"membaca item "}, sebelum \texttt{putint()} & \textit{[Isi jawaban di sini]} \\ \hline
+		      \end{tabulary}
+	      \end{table}
 
-    \item Tuliskan satu skenario eksekusi konkret yang menjelaskan mengapa angka yang dicetak Consumer bisa berbeda dari yang ditulis Producer. Ikuti format langkah demi langkah berikut:
+	\item Tuliskan satu skenario eksekusi konkret yang menjelaskan mengapa angka yang dicetak \textit{Consumer} bisa berbeda dari yang ditulis \textit{Producer}. Ikuti format langkah demi langkah berikut:
 
-    \begin{table}[htbp]
-    \centering
-    \caption{Skenario race condition langkah demi langkah}
-    \begin{tabulary}{\textwidth}{|c|l|L|}
-    \hline
-    \textbf{Langkah} & \textbf{Thread Aktif} & \textbf{Yang Terjadi} \\ \hline
-    1 & Producer & \texttt{shared\_buffer = 3} \\ \hline
-    2 & Producer & \texttt{thread\_yield()} dipanggil --- CPU berpindah \\ \hline
-    3 & Consumer & \textit{[Isi jawaban di sini]} \\ \hline
-    4 & Consumer & \textit{[Isi jawaban di sini]} \\ \hline
-    5 & Producer & \textit{[Isi jawaban di sini]} \\ \hline
-    6 & Consumer & \textit{[Isi: angka yang tercetak = ?]} \\ \hline
-    \end{tabulary}
-    \end{table}
+	      \begin{table}[htbp]
+		      \centering
+		      \caption{Skenario \textit{race condition} langkah demi langkah}
+		      \begin{tabulary}{\textwidth}{|c|l|L|}
+			      \hline
+			      \textbf{Langkah} & \textbf{Thread Aktif} & \textbf{Yang Terjadi} \\ \hline
+			      1 & \textit{Producer} & \texttt{shared\_buffer = 3} \\ \hline
+			      2 & \textit{Producer} & \texttt{thread\_yield()} dipanggil --- CPU berpindah \\ \hline
+			      3 & \textit{Consumer} & \textit{[Isi jawaban di sini]} \\ \hline
+			      4 & \textit{Consumer} & \textit{[Isi jawaban di sini]} \\ \hline
+			      5 & \textit{Producer} & \textit{[Isi jawaban di sini]} \\ \hline
+			      6 & \textit{Consumer} & \textit{[Isi: angka yang tercetak = ?]} \\ \hline
+		      \end{tabulary}
+	      \end{table}
 
 \end{enumerate}
 
 % ============================================================
-\section{Sesi 2 — Implementasi Semaphore}
+\section{Sesi 2 — Implementasi \textit{Semaphore}}
 % ============================================================
 
-\subsection{Struktur Semaphore pada implementasi OS}
+\subsection{Struktur \textit{Semaphore} pada implementasi OS}
 
 \begin{enumerate}
 
-    \item Perhatikan definisi \texttt{struct semaphore} di \texttt{src/synch.h}. Isilah tabel berikut berdasarkan kode sumber.
+	\item Perhatikan definisi \texttt{struct semaphore} di \texttt{src/synch.h}. Isilah tabel berikut berdasarkan kode sumber.
 
-    \begin{table}[htbp]
-    \centering
-    \caption{Field-field pada struct semaphore}
-    \begin{tabulary}{\textwidth}{|l|l|L|}
-    \hline
-    \textbf{Field} & \textbf{Tipe Data} & \textbf{Fungsi} \\ \hline
-    \texttt{value}         & \texttt{unsigned}           & \textit{[Isi jawaban di sini]} \\ \hline
-    \texttt{waiters[]}     & \texttt{struct thread *[]}  & \textit{[Isi jawaban di sini]} \\ \hline
-    \texttt{waiter\_count} & \texttt{uint32\_t}          & \textit{[Isi jawaban di sini]} \\ \hline
-    \end{tabulary}
-    \end{table}
+	      \begin{table}[htbp]
+		      \centering
+		      \caption{Field-field pada \texttt{struct semaphore}}
+		      \begin{tabulary}{\textwidth}{|l|l|L|}
+			      \hline
+			      \textbf{Field} & \textbf{Tipe Data} & \textbf{Fungsi} \\ \hline
+			      \texttt{value}         & \texttt{unsigned}           & \textit{[Isi jawaban di sini]} \\ \hline
+			      \texttt{waiters[]}     & \texttt{struct thread *[]}  & \textit{[Isi jawaban di sini]} \\ \hline
+			      \texttt{waiter\_count} & \texttt{uint32\_t}          & \textit{[Isi jawaban di sini]} \\ \hline
+		      \end{tabulary}
+	      \end{table}
 
-    \item Perhatikan nilai awal semaphore yang diinisialisasi di \texttt{kernel\_main()} pada \texttt{kernel.c}:
-    \begin{lstlisting}[language=C, caption={Inisialisasi semaphore di kernel\_main()}]
+	\item Perhatikan nilai awal \textit{semaphore} yang diinisialisasi di \texttt{kernel\_main()} pada \texttt{kernel.c}:
+	      \begin{lstlisting}[language=C, caption={Inisialisasi \textit{semaphore} di \texttt{kernel\_main()}}]
 sema_init(&sema_empty, 1);
 sema_init(&sema_full,  0);
     \end{lstlisting}
 
-    Isilah tabel berikut untuk menjelaskan mengapa nilai awal kedua semaphore berbeda.
+	      Isilah tabel berikut untuk menjelaskan mengapa nilai awal kedua \textit{semaphore} berbeda.
 
-    \begin{table}[htbp]
-    \centering
-    \caption{Alasan nilai awal semaphore}
-    \begin{tabulary}{\textwidth}{|l|c|L|}
-    \hline
-    \textbf{Semaphore} & \textbf{Nilai Awal} & \textbf{Alasan} \\ \hline
-    \texttt{sema\_empty} & 1 & \textit{[Isi: mengapa 1?]} \\ \hline
-    \texttt{sema\_full}  & 0 & \textit{[Isi: mengapa 0?]} \\ \hline
-    \end{tabulary}
-    \end{table}
+	      \begin{table}[htbp]
+		      \centering
+		      \caption{Alasan nilai awal \textit{semaphore}}
+		      \begin{tabulary}{\textwidth}{|l|c|L|}
+			      \hline
+			      \textbf{Semaphore} & \textbf{Nilai Awal} & \textbf{Alasan} \\ \hline
+			      \texttt{sema\_empty} & 1 & \textit{[Jelaskan mengapa bernilai 1]} \\ \hline
+			      \texttt{sema\_full}  & 0 & \textit{[Jelaskan mengapa bernilai 0]} \\ \hline
+		      \end{tabulary}
+	      \end{table}
 
 \end{enumerate}
 
@@ -137,9 +147,9 @@ sema_init(&sema_full,  0);
 
 \begin{enumerate}
 
-    \item Buka \texttt{src/synch.c} dan implementasikan fungsi \texttt{sema\_down()} dan \texttt{sema\_up()} sesuai petunjuk di dalam file tersebut. Salin kode yang telah kamu tulis di sini:
+	\item Salin kode yang telah diimplementasikan di sini:
 
-    \begin{lstlisting}[language=C, caption={Implementasi sema\_down() oleh mahasiswa}]
+	      \begin{lstlisting}[language=C, caption={Implementasi \texttt{sema\_down()} oleh mahasiswa}]
 void sema_down(struct semaphore *sema) {
 
     /* Tulis implementasi Anda di sini */
@@ -147,7 +157,7 @@ void sema_down(struct semaphore *sema) {
 }
     \end{lstlisting}
 
-    \begin{lstlisting}[language=C, caption={Implementasi sema\_up() oleh mahasiswa}]
+	      \begin{lstlisting}[language=C, caption={Implementasi \texttt{sema\_up()} oleh mahasiswa}]
 void sema_up(struct semaphore *sema) {
 
     /* Tulis implementasi Anda di sini */
@@ -155,23 +165,23 @@ void sema_up(struct semaphore *sema) {
 }
     \end{lstlisting}
 
-    \item Jelaskan mengapa \texttt{sema\_down()} menggunakan \texttt{while} dan bukan \texttt{if} untuk mengecek \texttt{sema->value == 0}. Apa yang bisa terjadi jika menggunakan \texttt{if}?\\[0.2cm]
-    \textbf{Jawaban:}\\
-    \textit{[Isi jawaban di sini]}
+	\item Jelaskan mengapa \texttt{sema\_down()} menggunakan \texttt{while} dan bukan \texttt{if} untuk mengecek \texttt{sema->value == 0}. Apa yang dapat terjadi jika menggunakan \texttt{if}?\\[0.2cm]
+	      \textbf{Jawaban:}\\
+	      \textit{[Isi jawaban di sini]}
 
 \end{enumerate}
 
 % ============================================================
-\section{Sesi 3 — Implementasi Lock dan Integrasi Kernel}
+\section{Sesi 3 — Implementasi \textit{Lock} dan Integrasi Kernel}
 % ============================================================
 
 \subsection{Implementasi lock\_acquire() dan lock\_release()}
 
 \begin{enumerate}
 
-    \item Masih di \texttt{src/synch.c}, implementasikan \texttt{lock\_acquire()} dan \texttt{lock\_release()}. Salin kode yang telah kamu tulis di sini:
+	\item Masih di \texttt{src/synch.c}, implementasikan \texttt{lock\_acquire()} dan \texttt{lock\_release()}. Salin kode yang telah diimplementasikan di sini:
 
-    \begin{lstlisting}[language=C, caption={Implementasi lock\_acquire() oleh mahasiswa}]
+	      \begin{lstlisting}[language=C, caption={Implementasi \texttt{lock\_acquire()} oleh mahasiswa}]
 void lock_acquire(struct lock *lock) {
 
     /* Tulis implementasi Anda di sini */
@@ -179,7 +189,7 @@ void lock_acquire(struct lock *lock) {
 }
     \end{lstlisting}
 
-    \begin{lstlisting}[language=C, caption={Implementasi lock\_release() oleh mahasiswa}]
+	      \begin{lstlisting}[language=C, caption={Implementasi \texttt{lock\_release()} oleh mahasiswa}]
 void lock_release(struct lock *lock) {
 
     /* Tulis implementasi Anda di sini */
@@ -187,36 +197,36 @@ void lock_release(struct lock *lock) {
 }
     \end{lstlisting}
 
-    \item Isilah tabel berikut untuk menjelaskan peran field \texttt{holder} pada \texttt{struct lock}.
+	\item Isilah tabel berikut untuk menjelaskan peran \textit{field} \texttt{holder} pada \texttt{struct lock}.
 
-    \begin{table}[htbp]
-    \centering
-    \caption{Peran field holder pada struct lock}
-    \begin{tabulary}{\textwidth}{|L|L|}
-    \hline
-    \textbf{Pertanyaan} & \textbf{Jawaban} \\ \hline
-    Apa yang disimpan di \texttt{holder}?
-        & \textit{[Isi jawaban di sini]} \\ \hline
-    Kapan \texttt{holder} diisi (\textit{non-NULL})?
-        & \textit{[Isi jawaban di sini]} \\ \hline
-    Kapan \texttt{holder} dikosongkan (\texttt{NULL})?
-        & \textit{[Isi jawaban di sini]} \\ \hline
-    Apa akibatnya jika \texttt{holder} tidak pernah direset ke \texttt{NULL}?
-        & \textit{[Isi jawaban di sini]} \\ \hline
-    \end{tabulary}
-    \end{table}
+	      \begin{table}[htbp]
+		      \centering
+		      \caption{Peran \textit{field} \texttt{holder} pada \texttt{struct lock}}
+		      \begin{tabulary}{\textwidth}{|L|L|}
+			      \hline
+			      \textbf{Pertanyaan} & \textbf{Jawaban} \\ \hline
+			      Apa yang disimpan di \texttt{holder}?
+			      & \textit{[Isi jawaban di sini]} \\ \hline
+			      Kapan \texttt{holder} diisi (\textit{non-NULL})?
+			      & \textit{[Isi jawaban di sini]} \\ \hline
+			      Kapan \texttt{holder} dikosongkan (\texttt{NULL})?
+			      & \textit{[Isi jawaban di sini]} \\ \hline
+			      Apa akibatnya jika \texttt{holder} tidak pernah dibersihkan (\textit{reset}) ke \texttt{NULL}?
+			      & \textit{[Isi jawaban di sini]} \\ \hline
+		      \end{tabulary}
+	      \end{table}
 
 \end{enumerate}
 
 % ────────────────────────────────────────────────────────────
-\subsection{Aktivasi Sinkronisasi dan Analisis Critical Section}
+\subsection{Aktivasi Sinkronisasi dan Analisis \textit{Critical Section}}
 
 \begin{enumerate}
 
-    \item Buka \texttt{src/kernel.c}. \textit{Uncomment} keempat blok \texttt{TODO} pada fungsi \texttt{producer()} dan \texttt{consumer()} untuk mengaktifkan pengaman.
-        Perhatikan bahwa kini area manipulasi data telah diapit oleh fungsi sinkronisasi (membentuk \textit{Entry Section} dan \textit{Exit Section}).
+	\item Buka \texttt{src/kernel.c}. Hilangkan tanda komentar (\textit{uncomment}) pada keempat blok \texttt{TODO} di fungsi \texttt{producer()} dan \texttt{consumer()} untuk mengaktifkan pengaman.
+	      Perhatikan bahwa kini area manipulasi data telah diapit oleh fungsi sinkronisasi (membentuk \textit{Entry Section} dan \textit{Exit Section}).
 
-        \begin{lstlisting}[language=C, caption={Tampilan producer() setelah uncomment}]
+	      \begin{lstlisting}[language=C, caption={Tampilan \texttt{producer()} setelah hilangkan blok komentar}]
 static void producer(void *aux) {
     (void)aux;
     int item = 0;
@@ -239,13 +249,13 @@ static void producer(void *aux) {
 }
     \end{lstlisting}
 
-    \item Secara teoritis, \textit{Mutual Exclusion} (Mutex) digunakan untuk melindungi variabel global di memori (dalam hal ini \texttt{shared\_buffer}). Namun pada kode di atas,
-        instruksi pencetakan ke layar (\texttt{vga\_puts} dan \texttt{vga\_putint}) juga ikut dimasukkan ke dalam area \textit{Critical Section} yang digembok oleh \texttt{buf\_lock}. 
-    
-    Analisislah mengapa perangkat antarmuka/layar (VGA) juga dikategorikan sebagai \textit{shared resource} dalam sebuah Sistem Operasi! Apa yang akan terjadi pada integritas data dan
-        tampilan di layar jika \texttt{lock\_release(\&buf\_lock)} dipindahkan ke atas, tepat setelah baris \texttt{shared\_buffer = item;} (sebelum mencetak log)?\\[0.2cm]
-    \textbf{Jawaban:}\\
-    \textit{[Isi jawaban di sini]}
+	\item Secara teoritis, \textit{Mutual Exclusion} (\textit{Mutex}) digunakan untuk melindungi variabel global di memori (dalam hal ini \texttt{shared\_buffer}). Namun pada kode di atas,
+	      instruksi pencetakan ke layar (\texttt{vga\_puts} dan \texttt{vga\_putint}) juga ikut dimasukkan ke dalam area \textit{Critical Section} yang digembok oleh \texttt{buf\_lock}.
+
+	      Analisislah mengapa perangkat antarmuka/layar (VGA) juga dikategorikan sebagai \textit{shared resource} dalam sebuah Sistem Operasi! Apa yang akan terjadi pada integritas data dan
+	      tampilan di layar jika \texttt{lock\_release(\&buf\_lock)} dipindahkan ke atas, tepat setelah baris \texttt{shared\_buffer = item;} (sebelum mencetak log)?\\[0.2cm]
+	      \textbf{Jawaban:}\\
+	      \textit{[Isi jawaban di sini]}
 
 \end{enumerate}
 
@@ -255,37 +265,62 @@ static void producer(void *aux) {
 
 \begin{enumerate}
 
-    \item \textit{Compile} ulang dan jalankan kernel dengan sinkronisasi penuh:
-    \begin{lstlisting}[language=bash, caption={Compile dan jalankan dengan sinkronisasi penuh}]
+	\item \textit{Compile} ulang dan jalankan kernel dengan sinkronisasi penuh:
+	      \begin{lstlisting}[language=bash, caption={Compile dan jalankan dengan sinkronisasi penuh}]
 make clean
 make DEMO=-DSYNCHRONIZATION
 make run
     \end{lstlisting}
 
-    Sertakan \textit{screenshot} output QEMU \textbf{sebelum} dan \textbf{sesudah}  sinkronisasi diterapkan secara berdampingan.
+	      Sertakan tangkapan layar (\textit{screenshot}) keluaran (\textit{output}) QEMU \textbf{sebelum} dan \textbf{sesudah}  sinkronisasi diterapkan secara berdampingan.
 
-    \begin{figure}[H]
-        \centering
-        \begin{minipage}[t]{0.48\textwidth}
-            \centering
-            % Ganti dengan screenshot Modul 9 (race condition)
-            \includegraphics[width=\textwidth]{Figure/handson05/4-sebelum.png}
-            \caption*{\textbf{Sebelum}  --- output kacau.}
-        \end{minipage}%
-        \hfill
-        \begin{minipage}[t]{0.48\textwidth}
-            \centering
-            % Ganti dengan screenshot Modul 10 (sudah sinkron)
-            \includegraphics[width=\textwidth]{Figure/handson05/4-sesudah.png}
-            \caption*{\textbf{Sesudah}  --- output rapi.}
-        \end{minipage}
-        \caption{Perbandingan output QEMU sebelum dan sesudah sinkronisasi.}
-        \label{fig:h05-4-compare}
-    \end{figure}
+	      % \begin{figure}[H]
+	      %     \centering
+	      %     \begin{minipage}[t]{0.48\textwidth}
+	      %         \centering
+	      %         % Ganti dengan screenshot Modul 9 (race condition)
+	      %         \includegraphics[width=\textwidth]{Figure/handson05/4-sebelum.png}
+	      %         \caption*{\textbf{Sebelum}  --- output kacau.}
+	      %     \end{minipage}%
+	      %     \hfill
+	      %     \begin{minipage}[t]{0.48\textwidth}
+	      %         \centering
+	      %         % Ganti dengan screenshot Modul 10 (sudah sinkron)
+	      %         \includegraphics[width=\textwidth]{Figure/handson05/4-sesudah.png}
+	      %         \caption*{\textbf{Sesudah}  --- output rapi.}
+	      %     \end{minipage}
+	      %     \caption{Perbandingan output QEMU sebelum dan sesudah sinkronisasi.}
+	      %     \label{fig:h05-4-compare}
+	      % \end{figure}
 
-    \item Verifikasi urutan output yang benar. Ekspektasi output setelah sinkronisasi berhasil adalah sebagai berikut:
+	      \begin{figure}[H]
+		      \centering
+		      \begin{minipage}[t]{0.48\textwidth}
+			      \centering
+			      \fbox{\begin{minipage}{0.95\linewidth}
+					      \centering\vspace{2cm}
+					      \textit{[Tempel screenshot layar di sini]}
+					      \vspace{2cm}
+				      \end{minipage}}
+			      \caption*{(a) Sebelum sinkronisasi (\textit{race condition})}
+		      \end{minipage}%
+		      \hfill
+		      \begin{minipage}[t]{0.48\textwidth}
+			      \centering
+			      \fbox{\begin{minipage}{0.95\linewidth}
+					      \centering\vspace{2cm}
+					      \textit{[Tempel screenshot layar di sini]}
+					      \vspace{2cm}
+				      \end{minipage}}
+			      \caption*{(b) Setelah sinkronisasi}
+		      \end{minipage}
+		      \caption{Perbandingan tampilan QEMU sebelum dan sesudah penerapan mekanisme sinkronisasi.}
+		      \label{fig:h05-4-compare}
+	      \end{figure}
 
-    \begin{lstlisting}[caption={Ekspektasi output Producer-Consumer yang tersinkronisasi}]
+	\item Verifikasi urutan keluaran (\textit{output}) yang benar. Ekspektasi keluaran (\textit{output}) setelah sinkronisasi berhasil adalah sebagai berikut:
+
+	      \begin{lstlisting}[caption={Ekspektasi keluaran (\textit{output}) \textit{Producer-Consumer} yang tersinkronisasi}]
 [Producer] menulis item 0
 [Consumer] membaca item 0
 [Producer] menulis item 1
@@ -295,29 +330,29 @@ make run
 ...
     \end{lstlisting}
 
-    Apakah output pada QEMU milikmu sudah konsisten seperti di atas? Jelaskan mengapa \texttt{thread\_yield()} yang ada di dalam \textit{critical section} tidak lagi menyebabkan anomali setelah lock dipasang.\\[0.2cm]
-    \textbf{Jawaban:}\\
-    \textit{[Isi jawaban di sini]}
+	\item Apakah keluaran (\textit{output}) pada QEMU sudah konsisten seperti di atas? Jelaskan mengapa \texttt{thread\_yield()} yang ada di dalam \textit{critical section} tidak lagi menyebabkan anomali setelah \texttt{lock} dipasang.\\[0.2cm]
+	      \textbf{Jawaban:}\\
+	      \textit{[Isi jawaban di sini]}
 
-    \item Isilah tabel ringkasan peran ketiga instrumen sinkronisasi berdasarkan hasil praktikum yang telah kamu lakukan.
+	\item Isilah tabel ringkasan peran ketiga instrumen sinkronisasi berdasarkan hasil praktikum yang telah dilakukan.
 
-    \begin{table}[htbp]
-    \centering
-    \caption{Peran tiga instrumen sinkronisasi pada Producer-Consumer}
-    \begin{tabulary}{\textwidth}{|l|l|L|}
-    \hline
-    \textbf{Instrumen} & \textbf{Jenis} & \textbf{Peran} \\ \hline
-    \texttt{sema\_empty}
-        & Counting Semaphore
-        & \textit{[Isi: kapan Producer harus menunggu?]} \\ \hline
-    \texttt{sema\_full}
-        & Counting Semaphore
-        & \textit{[Isi: kapan Consumer harus menunggu?]} \\ \hline
-    \texttt{buf\_lock}
-        & Mutex Lock
-        & \textit{[Isi: apa yang dilindungi?]} \\ \hline
-    \end{tabulary}
-    \end{table}
+	      \begin{table}[htbp]
+		      \centering
+		      \caption{Peran tiga instrumen sinkronisasi pada \textit{Producer-Consumer}}
+		      \begin{tabulary}{\textwidth}{|l|l|L|}
+			      \hline
+			      \textbf{Instrumen} & \textbf{Jenis} & \textbf{Peran} \\ \hline
+			      \texttt{sema\_empty}
+			      & \textit{Counting Semaphore}
+			      & \textit{[Jelaskan kapan Producer harus menunggu]} \\ \hline
+			      \texttt{sema\_full}
+			      & \textit{Counting Semaphore}
+			      & \textit{[Jelaskan kapan Consumer harus menunggu]} \\ \hline
+			      \texttt{buf\_lock}
+			      & \textit{Mutex Lock}
+			      & \textit{[Jelaskan apa yang dilindungi]} \\ \hline
+		      \end{tabulary}
+	      \end{table}
 
 \end{enumerate}
 
@@ -327,56 +362,76 @@ make run
 
 \begin{enumerate}
 
-    % ── Eksplorasi 1 ─────────────────────────────────────────
-    \item \textbf{Eksperimen tanpa Lock.}\\
-    Pada \texttt{kernel.c}, \textit{comment out} pemanggilan \texttt{lock\_acquire()} dan \texttt{lock\_release()} pada \texttt{producer()} dan \texttt{consumer()}, tetapi biarkan \texttt{sema\_down()} dan \texttt{sema\_up()} tetap aktif. \textit{Compile} ulang dan jalankan.
+	% ── Eksplorasi 1 ─────────────────────────────────────────
+	\item \textbf{Eksperimen tanpa \textit{Lock}.}\\
+	      Pada \texttt{kernel.c}, jadikan blok komentar (\textit{comment out}) untuk pemanggilan \texttt{lock\_acquire()} dan \texttt{lock\_release()} pada \texttt{producer()} dan \texttt{consumer()}, tetapi biarkan \texttt{sema\_down()} dan \texttt{sema\_up()} tetap aktif. \textit{Compile} ulang dan jalankan.
 
-    \begin{lstlisting}[language=bash, caption={Kompilasi untuk eksperimen tanpa lock}]
+	      \begin{lstlisting}[language=bash, caption={Kompilasi untuk eksperimen tanpa \textit{lock}}]
 make clean && make DEMO=-DSYNCHRONIZATION && make run
     \end{lstlisting}
 
-    \begin{enumerate}
-        \item Sertakan \textit{screenshot} hasil QEMU dari eksperimen ini.
+	      \begin{enumerate}
+		      \item Sertakan tangkapan layar (\textit{screenshot}) hasil QEMU dari eksperimen ini.
 
-        \begin{figure}[htbp]
-            \centering
-            % Ganti dengan screenshot eksperimen tanpa lock
-            \includegraphics[width=0.85\textwidth]{Figure/handson05/exp-tanpa-lock.png}
-            \caption{Output QEMU tanpa \texttt{buf\_lock} (semaphore tetap aktif).}
-            \label{fig:h05-exp-lock}
-        \end{figure}
+		            % \begin{figure}[htbp]
+		            %     \centering
+		            %     % Ganti dengan screenshot eksperimen tanpa lock
+		            %     \includegraphics[width=0.85\textwidth]{Figure/handson05/exp-tanpa-lock.png}
+		            %     \caption{Output QEMU tanpa \texttt{buf\_lock} (semaphore tetap aktif).}
+		            %     \label{fig:h05-exp-lock}
+		            % \end{figure}
 
-        \item Apakah output masih kacau atau sudah rapi? Jelaskan mengapa.\\[0.2cm]
-        \textbf{Jawaban:}\\
-        \textit{[Isi jawaban di sini]}
-    \end{enumerate}
+		            \begin{figure}[H]
+			            \centering
+			            \fbox{\begin{minipage}{0.92\linewidth}
+					            \centering\vspace{2.5cm}
+					            \textit{[Tempel screenshot layar di sini]}
+					            \vspace{2.5cm}
+				            \end{minipage}}
+			            \caption{Tampilan QEMU tanpa \texttt{lock} (semaphore tetap aktif).}
+		            \end{figure}
 
-    % ── Eksplorasi 2 ─────────────────────────────────────────
-    \item \textbf{Eksperimen tanpa Semaphore.}\\
-    Kembalikan \texttt{lock\_acquire()} dan \texttt{lock\_release()} seperti semula, lalu \textit{comment out} pemanggilan semua \texttt{sema\_down()} dan \texttt{sema\_up()}. \textit{Compile} ulang dan jalankan.
+		      \item Apakah keluaran (\textit{output}) masih kacau atau sudah rapi? Jelaskan mengapa.\\[0.2cm]
+		            \textbf{Jawaban:}\\
+		            \textit{[Isi jawaban di sini]}
+	      \end{enumerate}
 
-    \begin{enumerate}
-        \item Sertakan \textit{screenshot} hasil QEMU dari eksperimen ini.
+	      % ── Eksplorasi 2 ─────────────────────────────────────────
+	\item \textbf{Eksperimen tanpa \textit{Semaphore}.}\\
+	      Kembalikan \texttt{lock\_acquire()} dan \texttt{lock\_release()} seperti semula, lalu jadikan blok komentar (\textit{comment out}) untuk pemanggilan semua \texttt{sema\_down()} dan \texttt{sema\_up()}. \textit{Compile} ulang dan jalankan.
 
-        \begin{figure}[htbp]
-            \centering
-            % Ganti dengan screenshot eksperimen tanpa semaphore
-            \includegraphics[width=0.85\textwidth]{Figure/handson05/exp-tanpa-sema.png}
-            \caption{Output QEMU tanpa semaphore (\texttt{buf\_lock} tetap aktif).}
-            \label{fig:h05-exp-sema}
-        \end{figure}
+	      \begin{enumerate}
+		      \item Sertakan tangkapan layar (\textit{screenshot}) hasil QEMU dari eksperimen ini.
 
-        \item Apakah output masih konsisten? Apa perbedaan yang kamu amati dibandingkan saat ketiganya aktif? Jelaskan.\\[0.2cm]
-        \textbf{Jawaban:}\\
-        \textit{[Isi jawaban di sini]}
-    \end{enumerate}
+		            % \begin{figure}[htbp]
+		            %     \centering
+		            %     % Ganti dengan screenshot eksperimen tanpa semaphore
+		            %     \includegraphics[width=0.85\textwidth]{Figure/handson05/exp-tanpa-sema.png}
+		            %     \caption{Output QEMU tanpa semaphore (\texttt{buf\_lock} tetap aktif).}
+		            %     \label{fig:h05-exp-sema}
+		            % \end{figure}
 
-    % ── Eksplorasi 3 ──────────────────────────────
-    \item \textbf{Eksperimen Urutan Penguncian yang Keliru (deadlock).}\\
-    Kembalikan seluruh kode ke kondisi semula sehingga output kembali konsisten sebelum melanjutkan eksperimen ini.\\[0.2cm]
-    Pada fungsi \texttt{producer()} di \texttt{kernel.c}, tukar urutan dua baris berikut sehingga \texttt{lock\_acquire} dipanggil sebelum \texttt{sema\_down}:
+		            \begin{figure}[H]
+			            \centering
+			            \fbox{\begin{minipage}{0.92\linewidth}
+					            \centering\vspace{2.5cm}
+					            \textit{[Tempel screenshot layar di sini]}
+					            \vspace{2.5cm}
+				            \end{minipage}}
+			            \caption{Tampilam QEMU tanpa \textit{semaphore} (\texttt{lock} tetap aktif).}
+		            \end{figure}
 
-    \begin{lstlisting}[language=C, caption={Perbandingan urutan yang benar dan yang diubah}]
+		      \item Apakah keluaran (\textit{output}) masih konsisten? Apa perbedaan yang dapat diamati dibandingkan saat ketiganya aktif? Jelaskan.\\[0.2cm]
+		            \textbf{Jawaban:}\\
+		            \textit{[Isi jawaban di sini]}
+	      \end{enumerate}
+
+	      % ── Eksplorasi 3 ──────────────────────────────
+	\item \textbf{Eksperimen Urutan Penguncian yang Keliru (\textit{deadlock}).}\\
+	      Kembalikan seluruh kode ke kondisi semula sehingga keluaran (\textit{output}) kembali konsisten sebelum melanjutkan eksperimen ini.\\[0.2cm]
+	      Pada fungsi \texttt{producer()} di \texttt{kernel.c}, tukar urutan dua baris berikut sehingga \texttt{lock\_acquire()} dipanggil sebelum \texttt{sema\_down()}:
+
+	      \begin{lstlisting}[language=C, caption={Perbandingan urutan yang benar dan yang diubah}]
 /* Urutan yang benar: */
 sema_down(&sema_empty);   // (1) periksa ketersediaan slot
 lock_acquire(&buf_lock);  // (2) kunci buffer
@@ -386,49 +441,59 @@ lock_acquire(&buf_lock);  // (1) kunci buffer terlebih dahulu
 sema_down(&sema_empty);   // (2) periksa ketersediaan slot
     \end{lstlisting}
 
-    Kompilasi ulang dan jalankan.
+	      Kompilasi ulang dan jalankan.
 
-    \begin{lstlisting}[language=bash, caption={Kompilasi untuk eksperimen deadlock}]
+	      \begin{lstlisting}[language=bash, caption={Kompilasi untuk eksperimen \textit{deadlock}}]
 make clean && make DEMO=-DSYNCHRONIZATION && make run
     \end{lstlisting}
 
-    \begin{enumerate}
-        \item Tempelkan \textit{screenshot} layar QEMU setelah perubahan diterapkan. Catat apakah sistem menghasilkan output atau langsung berhenti.
+	      \begin{enumerate}
+		      \item Tempelkan tangkapan layar (\textit{screenshot}) layar QEMU setelah perubahan diterapkan. Catat apakah sistem menghasilkan keluaran (\textit{output}) atau langsung berhenti.
 
-        \begin{figure}[htbp]
-            \centering
-            \includegraphics[width=0.85\textwidth]{Figure/handson05/exp-deadlock.png}
-            \caption{Kondisi QEMU akibat urutan penguncian yang keliru.}
-            \label{fig:h05-exp-deadlock}
-        \end{figure}
+		            % \begin{figure}[htbp]
+		            %     \centering
+		            %     \includegraphics[width=0.85\textwidth]{Figure/handson05/exp-deadlock.png}
+		            %     \caption{Kondisi QEMU akibat urutan penguncian yang keliru.}
+		            %     \label{fig:h05-exp-deadlock}
+		            % \end{figure}
 
-        \item Lengkapi tabel alur eksekusi berikut untuk menjelaskan mengapa perubahan urutan tersebut menyebabkan sistem berhenti total.
+		            \begin{figure}[H]
+			            \centering
+			            \fbox{\begin{minipage}{0.92\linewidth}
+					            \centering\vspace{2.5cm}
+					            \textit{[Tempel screenshot layar di sini]}
+					            \vspace{2.5cm}
+				            \end{minipage}}
+			            \caption{Tampilan QEMU pada kondisi \textit{deadlock} akibat urutan penguncian yang keliru.}
+		            \end{figure}
 
-        \begin{table}[htbp]
-        \centering
-        \caption{Alur eksekusi akibat urutan penguncian yang keliru}
-        \begin{tabulary}{\textwidth}{|c|l|L|}
-        \hline
-        \textbf{Langkah} & \textbf{Thread Aktif} & \textbf{Yang Terjadi} \\ \hline
-        1 & Producer
-          & \texttt{lock\_acquire(\&buf\_lock)} berhasil; Producer memegang kunci. \\ \hline
-        2 & Producer
-          & \texttt{sema\_down(\&sema\_empty)} dipanggil; nilai \texttt{sema\_empty} = 0, Producer diblokir melalui \texttt{thread\_block()}. \\ \hline
-        3 & Consumer
-          & Mendapat giliran CPU; \texttt{sema\_down(\&sema\_full)} berhasil. \\ \hline
-        4 & Consumer
-          & \texttt{lock\_acquire(\&buf\_lock)} dipanggil --- \textit{[Isi jawaban di sini]} \\ \hline
-        5 & ---
-          & \textit{[Isi: mengapa tidak ada thread yang dapat melanjutkan?]} \\ \hline
-        \end{tabulary}
-        \end{table}
+		      \item Lengkapi tabel alur eksekusi berikut untuk menjelaskan mengapa perubahan urutan tersebut menyebabkan sistem berhenti total.
 
-        \textbf{Jawaban Singkat:}\\
-        \textit{[Jelaskan kondisi yang terjadi dalam 2--3 kalimat]}
+		            \begin{table}[htbp]
+			            \centering
+			            \caption{Alur eksekusi akibat urutan penguncian yang keliru}
+			            \begin{tabulary}{\textwidth}{|c|l|L|}
+				            \hline
+				            \textbf{Langkah} & \textbf{Thread Aktif} & \textbf{Yang Terjadi} \\ \hline
+				            1 & \textit{Producer}
+				            & \texttt{lock\_acquire(\&buf\_lock)} berhasil; \textit{Producer} memegang kunci. \\ \hline
+				            2 & \textit{Producer}
+				            & \texttt{sema\_down(\&sema\_empty)} dipanggil; nilai \texttt{sema\_empty} = 0, \textit{Producer} diblokir melalui \texttt{thread\_block()}. \\ \hline
+				            3 & \textit{Consumer}
+				            & Mendapat giliran CPU; \texttt{sema\_down(\&sema\_full)} berhasil. \\ \hline
+				            4 & \textit{Consumer}
+				            & \texttt{lock\_acquire(\&buf\_lock)} dipanggil --- \textit{[Isi jawaban di sini]} \\ \hline
+				            5 & ---
+				            & \textit{[Jelaskan mengapa tidak ada thread yang dapat melanjutkan]} \\ \hline
+			            \end{tabulary}
+		            \end{table}
 
-        \item Apa kesimpulan yang dapat diambil terkait pentingnya urutan pemanggilan \texttt{sema\_down} dan \texttt{lock\_acquire} dalam implementasi sinkronisasi?\\[0.2cm]
-        \textbf{Jawaban:}\\
-        \textit{[Isi jawaban di sini]}
-    \end{enumerate}
+		            \textbf{Jawaban Singkat:}\\
+		            \textit{[Jelaskan kondisi yang terjadi dalam 2--3 kalimat]}
+
+		      \item Apa kesimpulan yang dapat diambil terkait pentingnya urutan pemanggilan \texttt{sema\_down()} dan \texttt{lock\_acquire()} dalam implementasi sinkronisasi?\\[0.2cm]
+		            \textbf{Jawaban:}\\
+		            \textit{[Isi jawaban di sini]}
+	      \end{enumerate}
 
 \end{enumerate}

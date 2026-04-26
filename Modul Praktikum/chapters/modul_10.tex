@@ -6,21 +6,23 @@
 \label{chap:modul-10}
 
 % --- 1. Tujuan dan Output Praktikum ---
+\section{Tujuan dan Output Praktikum}
+
 \subsection{Tujuan Praktikum}
 Setelah menyelesaikan praktikum ini, mahasiswa diharapkan mampu:
 \begin{enumerate}
-    \item Memahami cara kerja \textit{semaphore} sebagai mekanisme dasar sinkronisasi antar \textit{thread}.
-    \item Memahami konsep \textit{mutex} (\textit{Mutual Exclusion Lock}) dan perbedaannya dengan \textit{semaphore} secara semantik maupun struktural.
-    \item Mengimplementasikan mekanisme penahanan (\textit{wait}) dan pelepasan (\textit{signal}) sumber daya, serta sistem penguncian eksklusif pada tingkat kernel.
-    \item Memverifikasi efektivitas mekanisme sinkronisasi yang dibangun dalam mencegah dan menghilangkan \textit{race condition} yang diamati pada modul sebelumnya.
+	\item Memahami cara kerja \textit{semaphore} sebagai mekanisme dasar sinkronisasi antar \textit{thread}.
+	\item Memahami konsep \textit{mutex} (\textit{Mutual Exclusion Lock}) dan perbedaannya dengan \textit{semaphore} secara semantik maupun struktural.
+	\item Mengimplementasikan mekanisme penahanan (\textit{wait}) dan pelepasan (\textit{signal}) sumber daya, serta sistem penguncian eksklusif pada tingkat kernel.
+	\item Memverifikasi efektivitas mekanisme sinkronisasi yang dibangun dalam mencegah dan menghilangkan \textit{race condition} yang diamati pada modul sebelumnya.
 \end{enumerate}
 
 \subsection{Output Praktikum}
 Pada akhir praktikum ini, mahasiswa diharapkan menghasilkan:
 \begin{itemize}
-    \item Implementasi algoritma sinkronisasi kernel yang valid dan mampu meregulasi antrian \textit{thread} dengan tepat.
-    \item Simulasi sistem operasi yang mendemonstrasikan penyelesaian skenario \textit{Producer-Consumer} dengan eksekusi yang tersinkronisasi, rapi, dan konsisten.
-    \item Laporan analisis yang menjabarkan bagaimana struktur \textit{semaphore} dan \textit{lock} bekerja sama secara harmonis untuk melindungi area \textit{critical section} dari interupsi paksa.
+	\item Implementasi algoritma sinkronisasi kernel yang valid dan mampu meregulasi antrean \textit{thread} dengan tepat.
+	\item Simulasi sistem operasi yang mendemonstrasikan penyelesaian skenario \textit{Producer-Consumer} dengan eksekusi yang tersinkronisasi, rapi, dan konsisten.
+	\item Laporan analisis yang menjabarkan bagaimana struktur \textit{semaphore} dan \textit{lock} bekerja sama secara harmonis untuk melindungi area \textit{critical section} dari interupsi paksa.
 \end{itemize}
 
 % --- 2. Dasar Teori ---
@@ -29,126 +31,126 @@ Pada akhir praktikum ini, mahasiswa diharapkan menghasilkan:
 
 \subsection{Konsep Semaphore}
 
-\textit{Semaphore} adalah sebuah struktur data abstrak yang digunakan untuk mengkoordinasikan akses beberapa \textit{thread} atau proses terhadap sumber daya (\textit{shared resource}) yang jumlahnya terbatas.
+\textit{Semaphore} adalah sebuah struktur data abstrak yang digunakan untuk mengoordinasikan akses beberapa \textit{thread} atau proses terhadap sumber daya (\textit{shared resource}) yang jumlahnya terbatas.
 Konsep ini pertama kali diperkenalkan oleh ilmuwan komputer Edsger W. Dijkstra pada tahun 1965.
 
 Secara konseptual, \textit{semaphore} bekerja seperti "keranjang berisi token". Jika sebuah \textit{thread} ingin melakukan pekerjaan, ia harus mengambil satu token dari keranjang. Jika keranjang kosong,
-\textit{thread} tersebut harus menunggu (mengantri) sampai ada token yang dikembalikan oleh \textit{thread} lain.
+\textit{thread} tersebut harus menunggu (mengantre) sampai ada token yang dikembalikan oleh \textit{thread} lain.
 
 Di dalam sistem operasi, sebuah \textit{semaphore} terdiri dari dua komponen utama:
 \begin{enumerate}
-    \item Sebuah variabel bilangan bulat (integer) non-negatif yang mewakili "jumlah token" atau kapasitas sumber daya.
-    \item Sebuah antrian (\textit{waiting queue}) untuk menampung \textit{thread} yang sedang menunggu giliran.
+	\item Sebuah variabel bilangan bulat (integer) non-negatif yang mewakili "jumlah token" atau kapasitas sumber daya.
+	\item Sebuah antrean (\textit{waiting queue}) untuk menampung \textit{thread} yang sedang menunggu giliran.
 \end{enumerate}
 
-Semaphore dioperasikan secara mutlak melalui dua operasi atomik (tidak dapat diinterupsi):
+Semaphore dikendalikan melalui dua operasi atomik (tidak dapat diinterupsi):
 \begin{itemize}
-    \item \textbf{Operasi \texttt{Wait(S)} (P atau \textit{Proberen})}: Mengurangi nilai variabel semaphore. Jika nilainya menjadi $0$ (atau kurang), maka \textit{thread} yang mengeksekusi operasi ini akan diubah
-        statusnya menjadi \textit{Blocked} / \textit{Asleep} dan dimasukkan ke dalam antrian. Pada sistem OS, operasi ini dinamakan \texttt{sema\_down()}.
-    \item \textbf{Operasi \texttt{Signal(S)} (V atau \textit{Verhogen})}: Menambah nilai variabel semaphore. Jika ada \textit{thread} yang sedang mengantri (tertidur), operasi ini akan membangunkan (\textit{Wake up})
-        salah satu \textit{thread} tersebut agar siap dieksekusi kembali oleh CPU. Pada sistem OS, operasi ini dinamakan \texttt{sema\_up()}.
+	\item \textbf{Operasi \texttt{Wait(S)} (P atau \textit{Proberen})}: Mengurangi nilai variabel semaphore. Jika nilainya menjadi $0$ (atau kurang), maka \textit{thread} yang mengeksekusi operasi ini akan diubah
+	      statusnya menjadi \textit{Blocked} / \textit{Asleep} dan dimasukkan ke dalam antrean. Pada sistem OS, operasi ini dinamakan \texttt{sema\_down()}.
+	\item \textbf{Operasi \texttt{Signal(S)} (V atau \textit{Verhogen})}: Menambah nilai variabel semaphore. Jika ada \textit{thread} yang sedang mengantre (tertidur), operasi ini akan membangunkan (\textit{Wake up})
+	      salah satu \textit{thread} tersebut agar siap dieksekusi kembali oleh CPU. Pada sistem OS, operasi ini dinamakan \texttt{sema\_up()}.
 \end{itemize}
 
 Berdasarkan kapasitasnya, semaphore dibagi menjadi dua:
 \begin{enumerate}
-    \item \textbf{Counting Semaphore}: Nilainya bisa berapa saja ($\geq 0$). Sangat berguna untuk mengontrol akses ke *resource* yang memiliki batasan jumlah, seperti jumlah tempat parkir kosong, atau sisa kapasitas \textit{buffer}.
-    \item \textbf{Binary Semaphore}: Nilainya hanya dibatasi pada angka $0$ dan $1$. Sering digunakan untuk menjamin \textit{Mutual Exclusion}.
+	\item \textbf{Counting Semaphore}: Nilainya bisa berapa saja ($\geq 0$). Sangat berguna untuk mengontrol akses ke *resource* yang memiliki batasan jumlah, seperti jumlah tempat parkir kosong, atau sisa kapasitas \textit{buffer}.
+	\item \textbf{Binary Semaphore}: Nilainya hanya dibatasi pada angka $0$ dan $1$. Sering digunakan untuk menjamin \textit{Mutual Exclusion}.
 \end{enumerate}
 
 \subsection{Mutex (Mutual Exclusion Lock)}
 
-\textit{Mutex} atau \textit{Lock} adalah mekanisme sinkronisasi yang secara khusus dirancang untuk menjamin \textit{Mutual Exclusion} pada area \textit{Critical Section}. 
+\textit{Mutex} atau \textit{Lock} adalah mekanisme sinkronisasi yang secara khusus dirancang untuk menjamin \textit{Mutual Exclusion} pada area \textit{Critical Section}.
 
-Analogi sederhana dari \textit{Mutex} adalah kunci kamar mandi umum. 
+Analogi paling mudah untuk memahami \textit{Mutex} adalah mengibaratkannya seperti penggunaan bilik kamar mandi.
 \begin{itemize}
-    \item Jika ada orang (Thread A) masuk ke kamar mandi (\textit{Critical Section}), ia akan mengunci pintunya (\textit{Lock}).
-    \item Orang lain (Thread B) yang ingin masuk harus mengantri di luar sampai pintu dibuka.
-    \item Pintu hanya bisa dibuka dari dalam oleh orang yang sama yang menguncinya tadi (Thread A).
+	\item Ketika seseorang (\textit{Thread A}) memasuki bilik (\textit{Critical Section}), ia akan mengunci pintu dari dalam (\textit{Lock}).
+	\item Orang lain (\textit{Thread B}) yang datang kemudian harus mengantre di luar hingga pintu tersebut dibuka (\textit{Unlock}).
+	\item Kunci pintu hanya dapat dibuka dari dalam oleh orang yang sama yang sebelumnya menguncinya (\textit{Thread A}).
 \end{itemize}
 
 \subsubsection{Konsep Ownership (Kepemilikan)}
-Ini adalah perbedaan mendasar antara Mutex dan Semaphore. Mutex memiliki konsep \textbf{Ownership} (Kepemilikan). Sebuah Mutex akan mengingat identitas \textit{thread} mana yang berhasil menguncinya. Sistem operasi yang baik
-akan menolak operasi \textit{Unlock} jika fungsi tersebut dipanggil oleh \textit{thread} yang bukan pemiliknya. 
+Hal ini merupakan perbedaan mendasar antara \textit{Mutex} dan \textit{Semaphore}. \textit{Mutex} memiliki konsep \textbf{Ownership} (Kepemilikan). Sebuah \textit{Mutex} akan mengingat identitas \textit{thread} mana yang berhasil menguncinya. Sistem operasi yang baik
+akan menolak operasi \textit{Unlock} jika fungsi tersebut dipanggil oleh \textit{thread} yang bukan pemiliknya.
 
 Di dalam level implementasi (seperti pada OS), Mutex sering kali dibangun di atas \textit{Binary Semaphore} dengan nilai awal $1$, namun ditambah dengan variabel \texttt{holder} untuk mencatat siapa pemegang kunci tersebut.
 
 \begin{table}[h]
-\centering
-\caption{Perbedaan Konseptual Semaphore dan Mutex}
-\begin{tabulary}{\textwidth}{|L|L|L|}
-\hline
-\textbf{Aspek} & \textbf{Semaphore} & \textbf{Mutex (Lock)} \\ \hline
-Analogi & Keranjang berisi token bebas. & Kunci gembok eksklusif. \\ \hline
-Konsep Nilai & Bilangan bulat $\geq 0$ (tergantung kapasitas). & Hanya $0$ (Terkunci) atau $1$ (Bebas). \\ \hline
-Kepemilikan (\textit{Ownership}) & Tidak ada. Thread A bisa melakukan \texttt{Wait}, dan Thread B bisa melakukan \texttt{Signal}. & Ada. Hanya thread pemegang kunci yang berhak melakukan \textit{Release/Unlock}. \\ \hline
-Kegunaan Utama & Sinkronisasi urutan kejadian dan manajemen jumlah sumber daya. & Melindungi \textit{Critical Section} dari modifikasi serentak. \\ \hline
-\end{tabulary}
+	\centering
+	\caption{Perbedaan Konseptual Semaphore dan Mutex}
+	\begin{tabulary}{\textwidth}{|L|L|L|}
+		\hline
+		\textbf{Aspek} & \textbf{Semaphore} & \textbf{Mutex (Lock)} \\ \hline
+		Analogi & Keranjang berisi token bebas. & Kunci gembok eksklusif. \\ \hline
+		Konsep Nilai & Bilangan bulat $\geq 0$ (tergantung kapasitas). & Hanya $0$ (Terkunci) atau $1$ (Bebas). \\ \hline
+		Kepemilikan (\textit{Ownership}) & Tidak ada. \textit{Thread A} bisa melakukan \texttt{Wait}, dan \textit{Thread B} bisa melakukan \texttt{Signal}. & Ada. Hanya \textit{thread} pemegang kunci yang berhak melakukan \textit{Release/Unlock}. \\ \hline
+		Kegunaan Utama & Sinkronisasi urutan kejadian dan manajemen jumlah sumber daya. & Melindungi \textit{Critical Section} dari modifikasi serentak. \\ \hline
+	\end{tabulary}
 \end{table}
 
 \subsection{Pendekatan Logika Sinkronisasi Producer-Consumer}
 
-Pada Modul 9, kita melihat bahwa masalah \textit{Producer-Consumer} (\textit{Bounded-Buffer}) menyebabkan anomali ketika \textit{buffer} diakses tanpa aturan. Untuk menyelesaikannya kita membutuhkan gabungan dari Semaphore dan Mutex.
+Pada Modul 9, telah didemonstrasikan bahwa masalah \textit{Producer-Consumer} (\textit{Bounded-Buffer}) menyebabkan anomali ketika \textit{buffer} diakses tanpa aturan. Untuk menyelesaikannya, dibutuhkan gabungan dari \textit{Semaphore} dan \textit{Mutex}.
 
 Logika penyelesaiannya membutuhkan 3 instrumen:
 \begin{enumerate}
-    \item \textbf{\texttt{mutex\_lock}}: Untuk melindungi variabel \textit{buffer} agar tidak ditulis/dibaca bersamaan.
-    \item \textbf{\texttt{sema\_empty}}: \textit{Counting Semaphore} untuk menghitung jumlah slot kosong di dalam \textit{buffer}.
-    \item \textbf{\texttt{sema\_full}}: \textit{Counting Semaphore} untuk menghitung jumlah slot terisi di dalam \textit{buffer}.
+	\item \textbf{\texttt{mutex\_lock}}: Untuk melindungi variabel \textit{buffer} agar tidak ditulis/dibaca bersamaan.
+	\item \textbf{\texttt{sema\_empty}}: \textit{Counting Semaphore} untuk menghitung jumlah slot kosong di dalam \textit{buffer}.
+	\item \textbf{\texttt{sema\_full}}: \textit{Counting Semaphore} untuk menghitung jumlah slot terisi di dalam \textit{buffer}.
 \end{enumerate}
 
 \noindent \textbf{Alur Logika Producer:}
 \begin{itemize}
-    \item Sebelum memproduksi barang, Producer harus \texttt{Wait(sema\_empty)}. Jika kapasitas penuh (kosong = 0), ia harus tidur.
-    \item Jika ada slot kosong, ia mengunci area dengan \texttt{Lock(mutex)}.
-    \item Setelah barang ditaruh, ia membuka \texttt{Unlock(mutex)}.
-    \item Terakhir, ia memberi sinyal \texttt{Signal(sema\_full)} untuk memberitahu Consumer bahwa ada barang baru.
+	\item Sebelum memproduksi data, \textit{Producer} harus melakukan \texttt{Wait(sema\_empty)}. Jika kapasitas \textit{buffer} sudah penuh, \textit{thread} ini akan ditidurkan hingga ada slot yang kosong.
+	\item Jika ada slot kosong, \textit{Producer} akan mengamankan \textit{buffer} dengan \texttt{Lock(mutex)}.
+	\item Setelah data dimasukkan ke dalam \textit{buffer}, \textit{Producer} membuka kembali pengaman dengan \texttt{Unlock(mutex)}.
+	\item Terakhir, \textit{Producer} mengirimkan sinyal \texttt{Signal(sema\_full)} untuk memberi tahu \textit{Consumer} bahwa ada data baru yang siap dibaca.
 \end{itemize}
 
 \noindent \textbf{Alur Logika Consumer:}
 \begin{itemize}
-    \item Sebelum membaca barang, Consumer harus \texttt{Wait(sema\_full)}. Jika tidak ada barang (terisi = 0), ia harus tidur.
-    \item Jika ada barang, ia mengunci area dengan \texttt{Lock(mutex)}.
-    \item Setelah barang diambil, ia membuka \texttt{Unlock(mutex)}.
-    \item Terakhir, ia memberi sinyal \texttt{Signal(sema\_empty)} untuk memberitahu Producer bahwa ada slot yang baru saja kosong.
+	\item Sebelum membaca data, \textit{Consumer} harus melakukan \texttt{Wait(sema\_full)}. Jika \textit{buffer} sedang kosong, \textit{thread} ini akan ditidurkan hingga ada data baru.
+	\item Jika ada data yang tersedia, \textit{Consumer} akan mengamankan \textit{buffer} dengan \texttt{Lock(mutex)}.
+	\item Setelah data selesai dibaca, \textit{Consumer} membuka kembali pengaman dengan \texttt{Unlock(mutex)}.
+	\item Terakhir, \textit{Consumer} mengirimkan sinyal \texttt{Signal(sema\_empty)} untuk memberi tahu \textit{Producer} bahwa ada slot kosong yang baru saja ditinggalkan.
 \end{itemize}
 
 \begin{table}[h]
-\caption{Tabel Ringkasan Dasar Teori Modul 10}
-\label{tab:m10-dasar-teori}
-\centering
-\begin{tabulary}{\textwidth}{|L|L|}
-\hline
-\textbf{Konsep} & \textbf{Penjelasan Singkat} \\ \hline
-Wait / P() / sema\_down
-    & Operasi menahan/menurunkan resource. Memblokir thread jika resource habis. \\ \hline
-Signal / V() / sema\_up
-    & Operasi melepaskan/menambah resource. Membangunkan thread dari antrian. \\ \hline
-Ownership
-    & Konsep kepemilikan pada Mutex yang memastikan hanya sang pengunci yang boleh membuka kunci. \\ \hline
-Thread Blocking
-    & Keadaan di mana thread diberhentikan paksa oleh OS dan dikeluarkan dari penjadwalan CPU hingga event sinkronisasi terjadi. \\ \hline
-\end{tabulary}
+	\caption{Tabel Ringkasan Dasar Teori Modul 10}
+	\label{tab:m10-dasar-teori}
+	\centering
+	\begin{tabulary}{\textwidth}{|L|L|}
+		\hline
+		\textbf{Konsep} & \textbf{Penjelasan Singkat} \\ \hline
+		Wait / P() / sema\_down
+		& Operasi menahan/menurunkan \textit{resource}. Memblokir \textit{thread} jika \textit{resource} habis. \\ \hline
+		Signal / V() / sema\_up
+		& Operasi melepaskan/menambah \textit{resource}. Membangunkan \textit{thread} dari antrean. \\ \hline
+		Ownership
+		& Konsep kepemilikan pada \textit{Mutex} yang memastikan hanya sang pengunci yang boleh membuka kunci. \\ \hline
+		Thread Blocking
+		& Keadaan di mana \textit{thread} diberhentikan paksa oleh OS dan dikeluarkan dari penjadwalan CPU hingga \textit{event} sinkronisasi terjadi. \\ \hline
+	\end{tabulary}
 \end{table}
 
 
 % --- 3. Alat dan Bahan ---
 \newpage
 \section{Alat dan Bahan}
-\label{sec:m09-alat-bahan}
+\label{sec:m10-alat-bahan}
 
 \subsection{Perangkat Keras}
 \begin{itemize}
-    \item PC atau Laptop dengan arsitektur prosesor basis \textit{host} x86/x64 yang mendukung kelanjutan kompilasi emulator.
-    \item Memori minimal 4GB RAM ruang eksekusi.
+	\item PC atau Laptop dengan arsitektur prosesor basis \textit{host} x86/x64 yang mendukung kelanjutan kompilasi emulator.
+	\item Memori minimal 4GB RAM ruang eksekusi.
 \end{itemize}
 
 \subsection{Perangkat Lunak (Bahan Praktikum)}
 \begin{itemize}
-    \item OS \textit{Host} utama (Windows dengan WSL/GitBash, Linux, atau macOS).
-    \item Text Editor (misalnya Visual Studio Code) untuk menyunting berkas kode bahasa C dan \textit{Assembly}.
-    \item Instalasi Docker Engine (\texttt{docker.io}) untuk menyalakan lingkungan isolasi kompilasi.
-    \item Emulator Hardware x86: \texttt{qemu-system-x86} (atau instalasi QEMU setara) yang akan mengeksekusi binari hasil OS.
-    \item Direktori \textit{Starter Code} OS 32-bit yang sudah disiapkan sebelumnya (berisi direktori \texttt{src} dengan kerangka lengkap \texttt{kernel.c}, \texttt{thread.h}, \texttt{thread.c}, \texttt{switch.asm}, \texttt{scheduler.h}, dsb).
+	\item OS \textit{Host} utama (Windows dengan WSL/GitBash, Linux, atau macOS).
+	\item Text Editor (misalnya Visual Studio Code) untuk menyunting berkas kode bahasa C dan \textit{Assembly}.
+	\item Instalasi Docker Engine (\texttt{docker.io}) untuk menyalakan lingkungan isolasi kompilasi.
+	\item Emulator Hardware x86: \texttt{qemu-system-x86} (atau instalasi QEMU setara) yang akan mengeksekusi binari hasil OS.
+	\item Direktori \textit{Starter Code} OS 32-bit yang sudah disiapkan sebelumnya (berisi direktori \texttt{src} dengan kerangka lengkap \texttt{kernel.c}, \texttt{thread.h}, \texttt{thread.c}, \texttt{switch.asm}, \texttt{scheduler.h}, dsb).
 \end{itemize}
 
 % --- 4. Langkah-Langkah Praktikum ---
@@ -161,9 +163,9 @@ Thread Blocking
 Pada praktikum ini, Anda akan menuliskan implementasi fungsi sinkronisasi di dalam \texttt{src/synch.c} dan menghubungkannya dengan simulasi di \texttt{src/kernel.c}.
 
 \begin{enumerate}
-    \item Buka terminal, pastikan Anda berada di dalam direktori \textit{source code} OS.
-    \item Bersihkan hasil \textit{build} sebelumnya agar kompilasi berikutnya menggunakan kode terbaru yang akan Anda tulis.
-    \begin{lstlisting}[language=bash, caption={Bersihkan build sebelumnya}]
+	\item Buka terminal, pastikan Anda berada di dalam direktori \textit{source code} OS.
+	\item Bersihkan hasil \textit{build} sebelumnya agar kompilasi berikutnya menggunakan kode terbaru yang akan Anda tulis.
+	      \begin{lstlisting}[language=bash, caption={Bersihkan build sebelumnya}]
 make clean
     \end{lstlisting}
 \end{enumerate}
@@ -172,37 +174,37 @@ make clean
 \subsection{Sesi 1: Mengimplementasikan Logika Semaphore}
 \label{sec:m10-sesi-1}
 
-Semaphore adalah fondasi utama dari mekanisme sinkronisasi di OS. Buka file \texttt{src/synch.c} menggunakan teks editor Anda dan cari bagian blok fungsi \texttt{sema\_down} dan \texttt{sema\_up}.
+Semaphore adalah fondasi utama dari mekanisme sinkronisasi di OS. Buka file \texttt{src/synch.c} menggunakan teks editor Anda dan cari blok fungsi \texttt{sema\_down} dan \texttt{sema\_up}.
 
 \begin{enumerate}
-    \item \textbf{Implementasi \texttt{sema\_down()} (Operasi Wait / P)} \\
-    Fungsi ini bertugas menahan \textit{thread} jika \textit{resource} sedang kosong (nilai 0). Ubah fungsi \texttt{sema\_down()} menjadi seperti berikut:
+	\item \textbf{Implementasi \texttt{sema\_down()} (Operasi Wait / P)} \\
+	      Fungsi ini bertugas menahan \textit{thread} jika \textit{resource} sedang kosong (nilai 0). Ubah fungsi \texttt{sema\_down()} menjadi seperti berikut:
 
-    \begin{lstlisting}[language=C, caption={Kode implementasi sema\_down()}]
+	      \begin{lstlisting}[language=C, caption={Kode implementasi sema\_down()}]
 void sema_down(struct semaphore *sema) {
-    /* 1. Selama nilai 0, masukkan thread ke antrian dan tidurkan */
+    /* 1. Selama nilai 0, masukkan thread ke antrean dan tidurkan */
     while (sema->value == 0) {
         sema->waiters[sema->waiter_count++] = thread_current();
         thread_block(); // Serahkan CPU ke thread lain
     }
-    /* 2. Jika sudah lolos (nilai > 0), kurangi nilai resource */
+    /* 2. Jika sudah lolos (nilai > 0), kurangi nilai \textit{resource} */
     sema->value--;
 }
     \end{lstlisting}
 
-    \item \textbf{Implementasi \texttt{sema\_up()} (Operasi Signal / V)} \\
-    Fungsi ini bertugas menambah nilai \textit{resource} dan membangunkan \textit{thread} yang sedang antri (jika ada). Ubah fungsi \texttt{sema\_up()} menjadi seperti berikut:
+	\item \textbf{Implementasi \texttt{sema\_up()} (Operasi Signal / V)} \\
+	      Fungsi ini bertugas menambah nilai \textit{resource} dan membangunkan \textit{thread} yang sedang antri (jika ada). Ubah fungsi \texttt{sema\_up()} menjadi seperti berikut:
 
-    \begin{lstlisting}[language=C, caption={Kode implementasi sema\_up()}]
+	      \begin{lstlisting}[language=C, caption={Kode implementasi sema\_up()}]
 void sema_up(struct semaphore *sema) {
-    /* 1. Kembalikan/tambah nilai resource */
+    /* 1. Kembalikan/tambah nilai \textit{resource} */
     sema->value++;
     
     /* 2. Jika ada thread yang menunggu, bangunkan yang pertama (FIFO) */
     if (sema->waiter_count > 0) {
         struct thread *t = sema->waiters[0];
         
-        // Geser sisa antrian ke depan (menghapus index 0)
+        // Geser sisa antrean ke depan (menghapus index 0)
         for (uint32_t i = 0; i < sema->waiter_count - 1; i++) {
             sema->waiters[i] = sema->waiters[i + 1];
         }
@@ -219,41 +221,41 @@ void sema_up(struct semaphore *sema) {
 \subsection{Sesi 2: Mengimplementasikan Mutex Lock}
 \label{sec:m10-sesi-2}
 
-Setelah Semaphore berfungsi, kita akan membungkusnya menjadi sebuah Mutex Lock. Masih di dalam file \texttt{src/synch.c}, cari bagian \texttt{lock\_acquire} dan \texttt{lock\_release}.
+Setelah \textit{Semaphore} berfungsi, mekanisme ini akan dibungkus menjadi sebuah \textit{Mutex Lock}. Masih di dalam file \texttt{src/synch.c}, cari bagian \texttt{lock\_acquire} dan \texttt{lock\_release}.
 
 \begin{enumerate}
-    \item \textbf{Implementasi \texttt{lock\_acquire()}} \\
-    Gunakan \texttt{sema\_down} untuk mengunci \textit{binary semaphore} milik lock, lalu catat siapa pemiliknya.
+	\item \textbf{Implementasi \texttt{lock\_acquire()}} \\
+	      Gunakan \texttt{sema\_down} untuk mengunci \textit{binary semaphore} milik lock, lalu catat siapa pemiliknya.
 
-    \begin{lstlisting}[language=C, caption={Kode implementasi lock\_acquire()}]
+	      \begin{lstlisting}[language=C, caption={Kode implementasi lock\_acquire()}]
 void lock_acquire(struct lock *lock) {
     sema_down(&lock->semaphore);     // Tunggu & ambil kunci
     lock->holder = thread_current(); // Catat pemegang kunci saat ini
 }
     \end{lstlisting}
 
-    \item \textbf{Implementasi \texttt{lock\_release()}} \\
-    Hapus kepemilikan lock, lalu gunakan \texttt{sema\_up} untuk membebaskan kunci agar bisa dipakai \textit{thread} lain.
+	\item \textbf{Implementasi \texttt{lock\_release()}} \\
+	      Hapus kepemilikan lock, lalu gunakan \texttt{sema\_up} untuk membebaskan kunci agar bisa dipakai \textit{thread} lain.
 
-    \begin{lstlisting}[language=C, caption={Kode implementasi lock\_release()}]
+	      \begin{lstlisting}[language=C, caption={Kode implementasi lock\_release()}]
 void lock_release(struct lock *lock) {
     lock->holder = NULL;             // Hapus identitas pemegang kunci
     sema_up(&lock->semaphore);       // Lepas kunci
 }
     \end{lstlisting}
-    \item \textbf{Simpan} file \texttt{synch.c}. Saat ini \textit{backend} sinkronisasi Anda sudah selesai.
+	\item \textbf{Simpan} file \texttt{synch.c}. Saat ini \textit{backend} sinkronisasi Anda sudah selesai.
 \end{enumerate}
 
 % -----------------------------------------------------------------
 \subsection{Sesi 3: Integrasi Sinkronisasi pada Simulasi Kernel}
 \label{sec:m10-sesi-3}
 
-Mekanisme yang sudah Anda buat tidak akan berguna jika tidak dipanggil oleh sistem. Sekarang, buka file \texttt{src/kernel.c}. Kita akan memperbaiki \textit{critical section} dari skenario Producer-Consumer.
+Mekanisme sinkronisasi yang telah dibuat tidak akan berfungsi jika tidak diintegrasikan ke dalam alur program utama. Oleh karena itu, bukalah file \texttt{src/kernel.c}. Kita akan melindungi area \textit{critical section} dari skenario Producer-Consumer menggunakan instrumen yang baru saja diselesaikan.
 
 \begin{enumerate}
-    \item Cari fungsi \texttt{producer(void *aux)}. Hapus tanda komentar (uncomment) pada blok TODO yang memanggil \texttt{sema} dan \texttt{lock} sehingga kodenya menjadi seperti ini:
+	\item Cari fungsi \texttt{producer(void *aux)}. Hapus tanda komentar (uncomment) pada blok TODO yang memanggil \texttt{sema} dan \texttt{lock} sehingga kodenya menjadi seperti ini:
 
-    \begin{lstlisting}[language=C, caption={Melindungi Critical Section pada Producer}]
+	      \begin{lstlisting}[language=C, caption={Melindungi Critical Section pada Producer}]
 static void producer(void *aux) {
     (void)aux;
     int item = 0;
@@ -280,9 +282,9 @@ static void producer(void *aux) {
 }
     \end{lstlisting}
 
-    \item Lakukan hal yang sama pada fungsi \texttt{consumer(void *aux)}.
+	\item Lakukan hal yang sama pada fungsi \texttt{consumer(void *aux)}.
 
-    \begin{lstlisting}[language=C, caption={Melindungi Critical Section pada Consumer}]
+	      \begin{lstlisting}[language=C, caption={Melindungi Critical Section pada Consumer}]
 static void consumer(void *aux) {
     (void)aux;
     while (1) {
@@ -306,7 +308,7 @@ static void consumer(void *aux) {
     }
 }
     \end{lstlisting}
-    \item \textbf{Simpan} file \texttt{kernel.c}.
+	\item \textbf{Simpan} file \texttt{kernel.c}.
 \end{enumerate}
 
 % -----------------------------------------------------------------
@@ -314,26 +316,26 @@ static void consumer(void *aux) {
 \label{sec:m10-sesi-4}
 
 \begin{enumerate}
-    \item Lakukan kompilasi sistem operasi Anda dengan \textit{flag} sinkronisasi.
-    \begin{lstlisting}[language=bash, caption={Compile dan jalankan dengan sinkronisasi penuh}]
-# pastikan sebelumnya sudah melakukan make clean
+	\item Lakukan kompilasi sistem operasi Anda dengan \textit{flag} sinkronisasi.
+	      \begin{lstlisting}[language=bash, caption={Compile dan jalankan dengan sinkronisasi penuh}]
+# Pastikan telah menjalankan make clean sebelumnya
 make DEMO=-DSYNCHRONIZATION
 make run
     \end{lstlisting}
 
-    \item \textbf{Verifikasi Hasil:} Amati output di layar QEMU. 
-    \begin{itemize}
-        \item \textbf{Sebelumnya (Modul 9):} Teks bertumpuk dan \textit{error} karena interupsi \texttt{thread\_yield()}.
-        \item \textbf{Sekarang (Modul 10):} Setiap \texttt{"[Producer] menulis item N"} selalu diikuti secara rapi oleh \texttt{"[Consumer] membaca item N"}.
-    \end{itemize}
-    Meskipun CPU dipaksa berpindah \textit{thread} di tengah jalan oleh jebakan \texttt{thread\_yield()}, sistem operasi Anda kini sudah memiliki pengamanan memori.
-    
-    \item \textit{Screenshot} bukti hasil jalan nya untuk dilihat dengan lebih baik apakah implementasi sudah sesuai.
+	\item \textbf{Verifikasi Hasil:} Amati keluaran (\textit{output}) di layar QEMU.
+	      \begin{itemize}
+		      \item \textbf{Sebelumnya (Modul 9):} Teks bertumpuk dan \textit{error} karena interupsi \texttt{thread\_yield()}.
+		      \item \textbf{Sekarang (Modul 10):} Setiap \texttt{"[Producer] menulis item N"} selalu diikuti secara rapi oleh \texttt{"[Consumer] membaca item N"}.
+	      \end{itemize}
+	      Meskipun CPU dipaksa berpindah \textit{thread} di tengah jalan oleh jebakan \texttt{thread\_yield()}, sistem operasi Anda kini sudah memiliki pengamanan memori.
+
+	\item Ambil tangkapan layar (\textit{screenshot}) hasil eksekusi untuk membuktikan bahwa implementasi sinkronisasi telah berjalan sesuai ekspektasi.
 \end{enumerate}
 
 \begin{figure}[h]
-    \centering
-    \includegraphics[width=0.85\textwidth]{Figure/10/1.jpeg}
-    \caption{Output QEMU setelah implementasi sinkronisasi penuh --- Producer dan Consumer bergantian secara rapi, Mutex berhasil mengatasi jebakan Preemption.}
-    \label{fig:m10-sesi4}
+	\centering
+	\includegraphics[width=0.85\textwidth]{Figure/10/1.jpeg}
+	\caption{Keluaran (\textit{output}) QEMU setelah implementasi sinkronisasi penuh --- Producer dan Consumer bergantian secara rapi, Mutex berhasil mengatasi jebakan Preemption.}
+	\label{fig:m10-sesi4}
 \end{figure}
