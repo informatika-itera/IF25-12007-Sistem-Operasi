@@ -265,6 +265,13 @@ struct thread *next_thread_to_run(void) {
 }
     \end{lstlisting}
 
+	      \begin{figure}[htbp]
+		      \centering
+		      \includegraphics[width=0.85\textwidth]{Figure/12/2.png}
+		      \caption{Implementasi fungsi \texttt{next\_thread\_to\_run()} untuk Priority Scheduling.}
+		      \label{fig:m12-sesi2}
+	      \end{figure}
+
 	      Penjelasan setiap tahap:
 	      \begin{itemize}
 		      \item \textbf{Tahap 1 (Pemindaian):} Loop menelusuri seluruh isi antrean mulai dari \texttt{ready\_head}. Untuk setiap elemen, bandingkan \texttt{priority}-nya dengan \texttt{best\_prio}. Jika lebih tinggi, catat indeks aktualnya di \texttt{best\_idx} dan perbarui \texttt{best\_prio}. Setelah loop selesai, \texttt{best\_idx} menunjuk ke posisi thread dengan prioritas tertinggi.
@@ -338,8 +345,7 @@ Demo Minggu 6: Priority Scheduling
 \begin{figure}[htbp]
 	\centering
 	% TODO: tambahkan screenshot hasil QEMU Priority Scheduling ke Figure/12/1.png
-	% \includegraphics[width=0.85\textwidth]{Figure/12/1.png}
-	\fbox{\parbox{0.85\textwidth}{\centering\vspace{2cm}Screenshot QEMU akan ditampilkan di sini\vspace{2cm}}}
+	\includegraphics[width=0.85\textwidth]{Figure/12/1.png}
 	\caption{Keluaran (\textit{output}) QEMU setelah implementasi Priority Scheduling. Thread High (prioritas 50) dieksekusi pertama kali selama 5 tick penuh, kemudian Med (prioritas 31) mendominasi CPU sepenuhnya sementara Low (prioritas 10) mengalami \textit{starvation}.}
 	\label{fig:m12-sesi3}
 \end{figure}
